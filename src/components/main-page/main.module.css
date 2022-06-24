@@ -1,0 +1,20 @@
+.main {
+    display: grid;
+    margin: 0 auto;
+    width: 1240px;
+    grid-template-columns: 1fr 1fr;
+    column-gap: calc(var(--offset-base-size) * 10);
+}
+
+.left {
+    max-height: calc(100vh - 88px);
+}
+
+.section {
+    max-height: 708px;
+    overflow-y: auto;
+}
+
+.section::-webkit-scrollbar-track {
+    margin-bottom: calc(var(--offset-base-size) * 10);
+}
