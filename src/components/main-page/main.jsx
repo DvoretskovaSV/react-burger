@@ -45,7 +45,13 @@ const Main = () => {
     useEffect(() => {
         setLoading(true);
         fetch(INGREDIENTS_URL)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(response);
+                }
+
+                return response.json()
+            })
             .then(data => setIngredients(data.data))
             .catch(err => setFetchError(err.message))
             .finally(() => setLoading(false));
