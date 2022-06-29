@@ -6,8 +6,7 @@ import Modal from "../elements/modal/modal";
 import OrderDetails from "./order-details";
 
 const Total = ({total = 0}) => {
-    const [modalOpen, setModalOpen] = useState(false)
-
+    const [modalOpen, setModalOpen] = useState(false);
 
     return (
         <>
@@ -15,7 +14,7 @@ const Total = ({total = 0}) => {
                 <div className="pr-10 text text_type_digits-medium">
                     {total} <CurrencyIcon type="primary"/>
                 </div>
-                <Button type="primary" size="medium" onClick={() => setModalOpen(true)}>
+                <Button type="primary" size="medium">
                     Оформить заказ
                 </Button>
             </div>

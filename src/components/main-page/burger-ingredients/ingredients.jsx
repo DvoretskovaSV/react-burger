@@ -2,10 +2,18 @@ import React from 'react';
 import ingredientsStyles from './ingredients.module.css';
 import PropTypes from "prop-types";
 import ModalOverlay from "../../elements/modal/modal-overlay";
+import IngredientsItem from "./item";
 
-const BurgerIngredients = ({ children }) => (
+const BurgerIngredients = ({ingredients}) => (
     <ul className={`${ingredientsStyles.list} pl-4 pr-4`}>
-        {children}
+        {ingredients.map(item => (
+            <IngredientsItem
+                ingredient={item}
+                key={item._id}
+                onClick={() => undefined}
+                className="mb-8"
+            />
+        ))}
     </ul>
 );
 
