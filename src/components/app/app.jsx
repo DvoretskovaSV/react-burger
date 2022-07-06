@@ -2,27 +2,18 @@ import React, {useEffect, useState} from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import Main from '../main-page/main';
-import {INGREDIENTS_URL} from "../../utils/constants";
+import {useDispatch, useSelector} from "react-redux";
+import {getIngredients} from "../../services/actions/ingredients";
 
 const App = () => {
+    const dispatch = useDispatch();
 
-    const [loading, setLoading] = useState(true);
-    const [ingredients, setIngredients] = useState([]);
-    const [fetchError, setFetchError] = useState(null);
+    const loading = useSelector(store => store.ingredients.isLoading);
+    const fetchError = useSelector(store => store.ingredients.fetchError);
+    const ingredients = useSelector(store => store.ingredients.ingredients);
 
     useEffect(() => {
-        setLoading(true);
-        fetch(INGREDIENTS_URL)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(response);
-                }
-
-                return response.json()
-            })
-            .then(data => setIngredients(data.data))
-            .catch(err => setFetchError(err.message))
-            .finally(() => setLoading(false));
+        dispatch(getIngredients());
     }, []);
 
     return (

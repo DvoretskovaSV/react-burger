@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { useDrag } from 'react-dnd'
 import PropTypes from "prop-types";
 import {
     Counter, CurrencyIcon
@@ -6,16 +7,44 @@ import {
 import ingredientStyles from './item.module.css';
 import Modal from "../../elements/modal/modal";
 import IngredientDetails from "./details";
+import {useDispatch, useSelector} from "react-redux";
+import {CLOSE_MODAL_INGREDIENT, OPEN_MODAL_INGREDIENT} from "../../../services/actions/modal";
 
 const IngredientsItem = ({ingredient, className = ''}) => {
-    const { image, name, price, count } = ingredient;
-    const [modalOpen, setModalOpen] = useState(false)
+    const dispatch = useDispatch();
+
+    const { image, name, price, _id, type, count } = ingredient;
+    const isOpenModal = useSelector(store => store.modal.isOpenModalIngredient);
+
+    const [{ opacity }, drag] = useDrag(
+        () => ({
+            type: 'ingredient',
+            item: { _id, type },
+            collect: (monitor) => ({
+                opacity: monitor.isDragging() ? 0.4 : 1,
+            }),
+        }),
+        [_id],
+    )
+
+    const handlerClick = () => {
+        dispatch({
+            type: OPEN_MODAL_INGREDIENT
+        });
+    }
+
+    const handleClose = () => {
+        dispatch({
+            type: CLOSE_MODAL_INGREDIENT
+        });
+    }
 
     return (
         <>
             <li
                 className={`${ingredientStyles.item} ${className}`}
-                onClick={() => setModalOpen(true)}
+                onClick={handlerClick}
+                ref={drag} style={{ opacity }}
             >
                 <img className="pl-4 pr-4" src={image} alt={name}/>
                 {count && <Counter count={count} size="default"/>}
@@ -24,11 +53,11 @@ const IngredientsItem = ({ingredient, className = ''}) => {
                 </span>
                 <div>{name}</div>
             </li>
-            {modalOpen &&
+            {isOpenModal &&
                 <Modal
                     title="Детали ингредиента"
-                    isOpen={modalOpen}
-                    onClose={() => setModalOpen(false)}
+                    isOpen={isOpenModal}
+                    onClose={handleClose}
                 >
                     <IngredientDetails {...ingredient}/>
                 </Modal>

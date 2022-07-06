@@ -5,6 +5,7 @@
     display: inline-flex;
     flex-direction: column;
     cursor: pointer;
+    min-height: 165px;
 }
 
 .price {

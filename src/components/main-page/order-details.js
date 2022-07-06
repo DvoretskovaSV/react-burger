@@ -2,7 +2,7 @@ import React from "react";
 import detailsStyles from './order-details.module.css';
 import PropTypes from "prop-types";
 
-const OrderDetails = ({number = '034536'}) => (
+const OrderDetails = ({number = '', name=''}) => (
     <>
         <p className={`${detailsStyles.identifier} text text_type_digits-large mp-4 mb-8`}>{number}</p>
         <p className="text text_type_main-medium">идентификатор заказа</p>
@@ -13,7 +13,7 @@ const OrderDetails = ({number = '034536'}) => (
 );
 
 OrderDetails.propTypes = {
-        number: PropTypes.string
+   number: PropTypes.number
 };
 
 export default OrderDetails;
