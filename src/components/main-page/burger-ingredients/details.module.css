@@ -1,0 +1,14 @@
+.details {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: calc(var(--offset-base-size) * 5);
+}
+
+.details_item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    color: #8585AD;
+}

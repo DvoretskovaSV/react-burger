@@ -1,0 +1,7 @@
+.section {
+    border: 2px dashed #4c4cff;
+    display: flex;
+    height: 466px;
+    justify-content: center;
+    align-items: center;
+}

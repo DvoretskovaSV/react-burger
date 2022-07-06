@@ -1,0 +1,26 @@
+.item {
+    position: relative;
+    text-align: center;
+    width: calc(50% - 24px);
+    display: inline-flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.price {
+    font-family: Iceland, cursive;
+    font-size: 28px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.price svg {
+    margin-left: 9px;
+}
+
+.item:nth-child(odd) {
+    margin-right: calc(var(--offset-base-size) * 8);
+}

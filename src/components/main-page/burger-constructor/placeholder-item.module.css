@@ -1,0 +1,12 @@
+.item_pos_top {
+    border-radius: var(--top-constructor-item-border-radius);
+}
+
+.item_pos_bottom {
+    border-radius: var(--bottom-constructor-item-border-radius);
+}
+
+.item {
+    height: 80px;
+    border: 2px dashed #4c4cff;
+}
