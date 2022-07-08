@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { useDrag } from 'react-dnd'
 import PropTypes from "prop-types";
 import {
@@ -8,13 +8,14 @@ import ingredientStyles from './item.module.css';
 import Modal from "../../elements/modal/modal";
 import IngredientDetails from "./details";
 import {useDispatch, useSelector} from "react-redux";
-import {CLOSE_MODAL_INGREDIENT, OPEN_MODAL_INGREDIENT} from "../../../services/actions/modal";
+import {openModalIngredient, closeModalIngredient} from "../../../services/actions/modal";
 
 const IngredientsItem = ({ingredient, className = ''}) => {
     const dispatch = useDispatch();
 
     const { image, name, price, _id, type, count } = ingredient;
-    const isOpenModal = useSelector(store => store.modal.isOpenModalIngredient);
+    const isOpenIngredient = useSelector(store => store.modal.isOpenIngredient);
+    const openIdIngredient = useSelector(store => store.modal.openIdIngredient);
 
     const [{ opacity }, drag] = useDrag(
         () => ({
@@ -27,17 +28,8 @@ const IngredientsItem = ({ingredient, className = ''}) => {
         [_id],
     )
 
-    const handlerClick = () => {
-        dispatch({
-            type: OPEN_MODAL_INGREDIENT
-        });
-    }
-
-    const handleClose = () => {
-        dispatch({
-            type: CLOSE_MODAL_INGREDIENT
-        });
-    }
+    const handlerClick = () => dispatch(openModalIngredient(ingredient._id));
+    const handleClose = () => dispatch(closeModalIngredient());
 
     return (
         <>
@@ -53,10 +45,10 @@ const IngredientsItem = ({ingredient, className = ''}) => {
                 </span>
                 <div>{name}</div>
             </li>
-            {isOpenModal &&
+            {isOpenIngredient && openIdIngredient === ingredient._id &&
                 <Modal
                     title="Детали ингредиента"
-                    isOpen={isOpenModal}
+                    isOpen={Boolean(isOpenIngredient)}
                     onClose={handleClose}
                 >
                     <IngredientDetails {...ingredient}/>

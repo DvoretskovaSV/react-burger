@@ -1,4 +1,5 @@
 import {INGREDIENTS_URL} from "../../utils/constants";
+import {checkResponse} from "../../utils/util";
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -11,14 +12,7 @@ export const getIngredients = () => (dispatch) => {
         type: GET_INGREDIENTS_REQUEST
     });
 
-    fetch(INGREDIENTS_URL)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(response);
-            }
-
-            return response.json()
-        })
+    fetch(INGREDIENTS_URL).then(checkResponse)
         .then(data => {
             dispatch({
                 type: GET_INGREDIENTS_SUCCESS,

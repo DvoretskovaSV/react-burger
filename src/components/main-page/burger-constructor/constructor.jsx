@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React from "react";
 import PropTypes from 'prop-types';
 import listStyles from "./constructor.module.css";
 import {ConstructorElement} from "@ya.praktikum/react-developer-burger-ui-components";
@@ -7,12 +7,9 @@ import PlaceholderList from "./placeholder-list";
 import {useDrop} from "react-dnd";
 import {useDispatch} from "react-redux";
 import {
-    REMOVE_CONSTRUCTOR_INGREDIENTS,
-    SET_CONSTRUCTOR_INGREDIENTS,
-    SET_CONSTRUCTOR_LOCK
+    addIngredient, addLock, removeIngredient, changeOrder
 } from "../../../services/actions/constructor";
 import ConstructorItem from "./item";
-import {CHANGE_CONSTRUCTOR_INGREDIENTS_ORDER} from "../../../services/actions/ingredients";
 import {ingredientConstructor} from "../../../utils/types/ingredient-constructor";
 
 const BurgerConstructor = ({items, lockItem}) => {
@@ -21,24 +18,13 @@ const BurgerConstructor = ({items, lockItem}) => {
     const onDrop = (item) => {
         const { _id, type } = item;
         if (type !== 'bun') {
-            dispatch({
-                type: SET_CONSTRUCTOR_INGREDIENTS,
-                id: _id,
-            })
+            dispatch(addIngredient(_id));
         } else {
-            dispatch({
-                type: SET_CONSTRUCTOR_LOCK,
-                id: _id,
-            })
+            dispatch(addLock(_id))
         }
     };
 
-    const handleClose = (uuid) => {
-        dispatch({
-            type: REMOVE_CONSTRUCTOR_INGREDIENTS,
-            uuid
-        })
-    };
+    const handleClose = (uuid) => dispatch(removeIngredient(uuid));
 
     const [, drop] = useDrop({
         accept: 'ingredient',
@@ -47,11 +33,7 @@ const BurgerConstructor = ({items, lockItem}) => {
 
     const moveOrder = (dragIndex, hoverIndex) => {
         if (Number.isInteger(dragIndex) && Number.isInteger(hoverIndex)) {
-            dispatch({
-                type: CHANGE_CONSTRUCTOR_INGREDIENTS_ORDER,
-                prevIndex: dragIndex,
-                currentIndex: hoverIndex,
-            })
+            dispatch(changeOrder(dragIndex, hoverIndex));
         }
     };
 

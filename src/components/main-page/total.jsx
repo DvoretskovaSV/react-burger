@@ -6,22 +6,24 @@ import Modal from "../elements/modal/modal";
 import OrderDetails from "./order-details";
 import {useDispatch, useSelector} from "react-redux";
 import {createOrder} from "../../services/actions/order";
-import {CLOSE_MODAL_ORDER} from "../../services/actions/modal";
+import {closeModalOrder} from "../../services/actions/modal";
+import Loader from "../elements/loader";
+import FetchError from "../elements/fetch-error";
 
 const Total = ({total = 0}) => {
     const dispatch = useDispatch();
 
     const isOpenModal = useSelector(store => store.modal.isOpenModalOrder);
     const order = useSelector(store => store.order.order);
+    const isLoading = useSelector(store => store.order.loading);
+    const fetchError = useSelector(store => store.order.fetchError);
 
     const handlerClick = () => {
         dispatch(createOrder());
     }
 
     const handleClose = () => {
-        dispatch({
-            type: CLOSE_MODAL_ORDER
-        });
+        dispatch(closeModalOrder());
     }
 
     return (
@@ -34,11 +36,14 @@ const Total = ({total = 0}) => {
                     Оформить заказ
                 </Button>
             </div>
-            {isOpenModal && <Modal
-                isOpen={isOpenModal}
-                onClose={handleClose}
-            >
-                <OrderDetails {...order}/>
+            {isOpenModal &&
+                <Modal
+                    isOpen={isOpenModal}
+                    onClose={handleClose}
+                >
+                    {isLoading && !fetchError && <Loader/>}
+                    {!isLoading && !fetchError && <OrderDetails {...order}/>}
+                    {fetchError && <FetchError />}
             </Modal>}
         </>
     )

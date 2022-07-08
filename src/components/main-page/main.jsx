@@ -8,14 +8,25 @@ import Loader from "../elements/loader";
 import Total from "./total";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {sections} from "../../utils/data";
+import {getIngredients} from "../../services/actions/ingredients";
 
 const thresholdStep = 10;
 const threshold = Array(thresholdStep).fill(0).map((value, index) => 1 / thresholdStep * index);
 
 
-const Main = ({ingredients, loading, fetchError}) => {
+const Main = () => {
+    const dispatch = useDispatch();
+
+    const loading = useSelector(store => store.ingredients.loading);
+    const fetchError = useSelector(store => store.ingredients.fetchError);
+    const ingredients = useSelector(store => store.ingredients.ingredients);
+
+    useEffect(() => {
+        dispatch(getIngredients());
+    }, []);
+
     const constructorItemsIds = useSelector(store => store.constructorIngredients.ingredients);
     const lockId = useSelector(store => store.constructorIngredients.lock);
 
@@ -31,6 +42,8 @@ const Main = ({ingredients, loading, fetchError}) => {
     useEffect(() => {
         if (sectionRef.current) {
             const observer = new IntersectionObserver((entries, observer) => {
+                if (!sectionRef.current) return;
+
                 const maxTop = sectionRef.current.getBoundingClientRect().y;
 
                 let items = new Map();

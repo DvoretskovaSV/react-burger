@@ -3,8 +3,7 @@ import {
     SET_CONSTRUCTOR_INGREDIENTS,
     SET_CONSTRUCTOR_LOCK
 } from "../actions/constructor";
-import {CHANGE_CONSTRUCTOR_INGREDIENTS_ORDER} from "../actions/ingredients";
-import uuid from "react-uuid";
+import {CHANGE_CONSTRUCTOR_INGREDIENTS_ORDER} from "../actions/ingredients";;
 
 const initialState = {
     ingredients: [],
@@ -20,7 +19,7 @@ export const constructorReducer = (state = initialState, action) => {
                     ...state.ingredients,
                     {
                         id: action.id,
-                        uuid: uuid(),
+                        uuid: action.uuid
                     }
                 ]
             };

@@ -1,7 +1,9 @@
 import {CLOSE_MODAL_INGREDIENT, CLOSE_MODAL_ORDER, OPEN_MODAL_INGREDIENT, OPEN_MODAL_ORDER} from "../actions/modal";
 
 const initialState = {
-    isOpenModalOrder: false
+    isOpenModalOrder: false,
+    isOpenModalIngredient: false,
+    openIdIngredient: null,
 };
 
 export const modalReducer = (state = initialState, action) => {
@@ -18,15 +20,15 @@ export const modalReducer = (state = initialState, action) => {
             };
         case OPEN_MODAL_INGREDIENT:
             return {
-                isOpenModalIngredient: true
+                isOpenIngredient: true,
+                openIdIngredient: action.id
             };
         case CLOSE_MODAL_INGREDIENT:
             return {
                 isOpenModalIngredient: false
             };
-        default:
-            return {
-                ...state
-            };
+        default: {
+            return state;
+        }
     }
 };

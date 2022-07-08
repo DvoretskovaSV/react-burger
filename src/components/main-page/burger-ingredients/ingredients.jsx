@@ -10,7 +10,6 @@ const BurgerIngredients = ({ingredients}) => (
             <IngredientsItem
                 ingredient={item}
                 key={item._id}
-                onClick={() => undefined}
                 className="mb-8"
             />
         ))}

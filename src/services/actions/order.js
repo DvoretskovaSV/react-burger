@@ -1,6 +1,7 @@
 import {MAKE_ORDER_URL} from "../../utils/constants";
 import {OPEN_MODAL_ORDER} from "./modal";
 import {RESET_CONSTRUCTOR} from "./constructor";
+import {checkResponse} from "../../utils/util";
 
 export const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS';
 export const CREATE_ORDER_ERROR = 'CREATE_ORDER_ERROR';
@@ -24,14 +25,7 @@ export const createOrder = () => (dispatch, getState) => {
         body: JSON.stringify({
             ingredients: [...ingredients.map(item => item.id), lockId]
         })
-    }).then(response => {
-        if (!response.ok) {
-            throw new Error(response);
-        }
-
-        return response.json()
-    })
-        .then(data => {
+    }).then(checkResponse).then(data => {
             dispatch({
                 type: CREATE_ORDER_SUCCESS,
                 number: data.order.number,
