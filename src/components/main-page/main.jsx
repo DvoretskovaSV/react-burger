@@ -1,114 +1,148 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef, useCallback, createRef} from 'react';
 import mainStyles from './main.module.css';
 import BurgerIngredients from "./burger-ingredients/ingredients";
-import IngredientsItem from "./burger-ingredients/item";
 import BurgerConstructor from "./burger-constructor/constructor";
 import Tabs from "../elements/tabs";
 import FetchError from "../elements/fetch-error";
 import Loader from "../elements/loader";
 import Total from "./total";
-import {INGREDIENTS_URL} from "../../utils/constants";
+import {DndProvider} from "react-dnd";
+import {HTML5Backend} from "react-dnd-html5-backend";
+import {useDispatch, useSelector} from "react-redux";
+import {sections} from "../../utils/data";
+import {getIngredients} from "../../services/actions/ingredients";
 
-const getRandomElements = (arr) => {
-    return Array.from({length: Math.random() * arr.length},
-        () => arr[Math.floor(Math.random() * arr.length)]._id
-    );
-};
-
-const getRandomLock = (arr) => {
-    const filteredArr = arr.filter(item => item.type === 'bun');
-    const random = filteredArr[Math.floor(Math.random() * filteredArr.length)];
-    return random ? random._id : '';
-};
-
-const sections = [
-    {
-        text: 'Булки',
-        typeId: 'bun',
-    },
-    {
-        text: 'Соусы',
-        typeId: 'sauce',
-    },
-    {
-        text: 'Начинки',
-        typeId: 'main',
-    }
-];
+const thresholdStep = 10;
+const threshold = Array(thresholdStep).fill(0).map((value, index) => 1 / thresholdStep * index);
 
 
 const Main = () => {
-    const [loading, setLoading] = useState(true);
-    const [ingredients, setIngredients] = useState([]);
-    const [fetchError, setFetchError] = useState(null);
+    const dispatch = useDispatch();
+
+    const loading = useSelector(store => store.ingredients.loading);
+    const fetchError = useSelector(store => store.ingredients.fetchError);
+    const ingredients = useSelector(store => store.ingredients.ingredients);
 
     useEffect(() => {
-        setLoading(true);
-        fetch(INGREDIENTS_URL)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(response);
-                }
-
-                return response.json()
-            })
-            .then(data => setIngredients(data.data))
-            .catch(err => setFetchError(err.message))
-            .finally(() => setLoading(false));
+        dispatch(getIngredients());
     }, []);
 
-    const [busy, setBusy] = useState([]);
+    const constructorItemsIds = useSelector(store => store.constructorIngredients.ingredients);
+    const lockId = useSelector(store => store.constructorIngredients.lock);
+
+    const [current, setCurrent] = useState('bun');
+
+    const tabRefs = sections.reduce((acc, value) => {
+        acc[value.typeId] = createRef();
+        return acc;
+    }, {});
+
+    const sectionRef = useRef(null);
 
     useEffect(() => {
-        setBusy(getRandomElements(ingredients));
-    }, [ingredients]);
+        if (sectionRef.current) {
+            const observer = new IntersectionObserver((entries, observer) => {
+                if (!sectionRef.current) return;
 
-    const busyElements = busy.reduce((acc, id) => {
-        const busyItem = ingredients.find(item => item._id === id);
+                const maxTop = sectionRef.current.getBoundingClientRect().y;
 
-        if (busyItem) {
-            acc.push(busyItem);
+                let items = new Map();
+                for (const key in tabRefs) {
+                    if (tabRefs[key].current) {
+                        items.set(key, Math.abs(tabRefs[key].current.getBoundingClientRect().y - maxTop));
+                    }
+                }
+
+                items = new Map(Array.from(items).sort((a, b) => a[1] - b[1]));
+
+                const [firstKey] = items.keys();
+                if (firstKey) {
+                    setCurrent(firstKey);
+                }
+
+            }, {
+                root: sectionRef.current,
+                threshold
+            });
+
+            for (const key in tabRefs) {
+                observer.observe(tabRefs[key].current);
+            }
+        }
+    }, [tabRefs]);
+
+    const handleClick = (typeId) => {
+        tabRefs[typeId].current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+        });
+    }
+
+    const countsMap = {};
+    const constructorItems = useCallback(constructorItemsIds.reduce((acc, item) => {
+        const ingredientItem = ingredients.find(ingredient => ingredient._id === item.id);
+        if (ingredientItem) {
+            acc.push({
+                ...ingredientItem,
+                uuid: item.uuid,
+            });
+
+            countsMap[ingredientItem._id] = countsMap[ingredientItem._id] ? ++countsMap[ingredientItem._id] : 1;
         }
 
         return acc;
-    }, []);
+    }, []) || [], [ingredients, constructorItemsIds]);
+
+    const lockItem = useCallback(ingredients.find(ingredient => ingredient._id === lockId), [lockId]);
+
+    if (lockId) {
+        countsMap[lockId] = 1;
+    }
+
+    const total = useCallback(
+        [...constructorItems, lockItem || {}, lockItem || {}].reduce((acc, item) => (item.price || 0) + acc, 0),
+        [constructorItems, lockItem]
+    );
 
     return (
         <>
             <main className={mainStyles.main}>
-                {!fetchError && !loading &&
-                    <>
-                        <div className={mainStyles.left}>
-                            <h1 className="mb-5"> Соберите бургер</h1>
-                            <Tabs sections={sections}/>
-                            <div className={`${mainStyles.section} custom-scroll`}>
-                                {sections.map((section, index) => (
-                                    <div key={index}>
-                                        <h2 className="mt-8 mb-10">{section.text}</h2>
-                                        <BurgerIngredients key={index}>
-                                            {ingredients.map(item => (
-                                                item.type === section.typeId &&
-                                                <IngredientsItem
-                                                    ingredient={item}
-                                                    key={item._id}
-                                                    onClick={() => undefined}
-                                                    className="mb-8"
-                                                />
-                                            ))}
-                                        </BurgerIngredients>
-                                    </div>
-                                ))}
+                <DndProvider backend={HTML5Backend}>
+                    {!fetchError && !loading &&
+                        <>
+                            <div className={mainStyles.left}>
+                                <h1 className="mb-5"> Соберите бургер</h1>
+                                <Tabs sections={sections} current={current} onClick={handleClick}/>
+                                <div className={`${mainStyles.section} custom-scroll`} ref={sectionRef}>
+                                    {sections.map((section, index) => (
+                                        <div key={index} ref={tabRefs[section.typeId]}>
+                                            <h2 className="pt-8 mb-10">{section.text}</h2>
+                                            <BurgerIngredients
+                                                key={index}
+                                                ingredients={ingredients.reduce((acc, item) => {
+                                                    if (item.type === section.typeId) {
+                                                         acc.push({
+                                                            ...item,
+                                                            count: countsMap[item._id]
+                                                        })
+                                                    }
+                                                    return acc;
+                                                }, [])}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="mt-15 ml-4">
-                            <BurgerConstructor items={busyElements} lockId={getRandomLock(busyElements)}/>
-                            <Total
-                                total={busyElements.reduce(((acc, item) => item.price + acc), 0)}
-                            />
-                        </div>
-                    </>
-                }
+                            <div className="mt-15 ml-4">
+                                <BurgerConstructor items={constructorItems} lockItem={lockItem}/>
+                                <Total
+                                    total={total}
+                                />
+                            </div>
+                        </>
+                    }
+                </DndProvider>
             </main>
             {loading && <Loader/>}
             {fetchError && <FetchError error={fetchError}/>}
