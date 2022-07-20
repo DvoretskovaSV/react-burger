@@ -1,0 +1,15 @@
+.nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.wrap {
+    width: 320px;
+}
+
+.description {
+    color: #8585AD;
+    opacity: 0.4;
+    line-height: 24px;
+    white-space: pre-line;
+}

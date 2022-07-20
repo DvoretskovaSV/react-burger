@@ -6,3 +6,8 @@
     min-height: 100vh;
     color: #F2F2F3;
 }
+
+.wrap {
+    margin: 0 auto;
+    width: 1240px;
+}

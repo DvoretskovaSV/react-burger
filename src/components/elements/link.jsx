@@ -1,23 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import linkStyles from './link.module.css';
+import {NavLink as NavLinkRouter} from "react-router-dom";
 
-const Link = ({text, children, url = '#', active = false, onClick = () => undefined}) => (
-    <a
-        href={url}
-        className={`${linkStyles.link} ${active ? linkStyles.active : ''} p-5`}
-        onClick={onClick}
+const Link = (props) => {
+    const {text, type = 'nav', children} = props;
+
+    return <NavLinkRouter
+        { ...props }
+        className={`${linkStyles.link} ${linkStyles[type]}`}
+        activeClassName={linkStyles.active}
     >
         {children}
         {text && <span>{text}</span>}
-    </a>
-);
+    </NavLinkRouter>
+};
 
 Link.propTypes = {
     text: PropTypes.string,
-    url: PropTypes.string,
-    active: PropTypes.bool,
-    onClick: PropTypes.func,
+    type: PropTypes.string,
 };
 
 export default Link;

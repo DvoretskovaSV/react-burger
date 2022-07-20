@@ -1,7 +1,5 @@
 .main {
     display: grid;
-    margin: 0 auto;
-    width: 1240px;
     grid-template-columns: 1fr 1fr;
     column-gap: calc(var(--offset-base-size) * 10);
 }
