@@ -16,7 +16,7 @@ const IngredientPage = () => {
         dispatch(getIngredients());
     }, []);
 
-    const { params } = useRouteMatch();
+    const {params} = useRouteMatch();
 
     if (!ingredients.length) {
         return null;
@@ -24,11 +24,13 @@ const IngredientPage = () => {
 
     const ingredient = ingredients.find(ingredient => ingredient._id === params.ingredientId);
 
-    return <>
-        {!fetchError && !loading && <IngredientDetails {...ingredient} />}
-        {loading && <Loader/>}
-        {fetchError && <FetchError error={fetchError}/>}
-    </>;
+    return (
+        <>
+            {!fetchError && !loading && <IngredientDetails {...ingredient} />}
+            {loading && <Loader/>}
+            {fetchError && <FetchError error={fetchError}/>}
+        </>
+    );
 };
 
 export default IngredientPage;
