@@ -5,67 +5,72 @@ import {
     SET_USER_ERROR,
     REGISTER_ERROR,
     RESET_PASSWORD,
-    RESET_PASSWORD_ERROR, LOGOUT
+    RESET_PASSWORD_ERROR,
+    LOGOUT,
+    USER_REQUEST,
+    USER_REQUEST_SUCCESS,
+    NO_USER,
+    AUTH_REQUEST_ERROR,
+    REGISTER_REQUEST_ERROR, FORGOT_PASSWORD_ERROR
 } from "../actions/user";
 
 const initialState = {
-    email: null,
-    name: null,
+    user: {
+        email: null,
+        name: null,
+    },
+    errors: {
+        authError: false,
+        passwordError: false,
+        registerError: false,
+        forgotError: false,
+        forgoPasswordError: false,
+    },
     isAuthenticated: false,
-    isUserLoaded: false,
-    authError: false,
-    passwordError: false,
-    registerError: false,
+    isUserLoading: true,
     isResetPassword: false,
 };
 
 
 export const userReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_USER: {
+        case NO_USER: {
             return {
-                ...state,
-                email: action.email,
-                name: action.name,
-                isAuthenticated: true,
-                isUserLoaded: true,
-                registerError: false,
-                authError: false,
-            }
-        }
-        case SET_USER_ERROR: {
-            return {
-                ...state,
+                ...initialState,
+                isUserLoading: false,
                 isAuthenticated: false,
-                isUserLoaded: true,
             }
         }
-        case REGISTER_ERROR: {
+        case USER_REQUEST_SUCCESS: {
             return {
                 ...state,
-                registerError: action.code,
+                user: {
+                    ...state.user,
+                    email: action.email,
+                    name: action.name,
+                },
+                errors: {
+                    ...state.errors,
+                    registerError: false,
+                    authError: false,
+                },
+                isAuthenticated: true,
+                isUserLoading: false,
             }
         }
-        case AUTH_ERROR: {
-            return {
-                ...state,
-                authError: action.code,
-            }
-        }
+
         case RESET_PASSWORD: {
             return {
                 ...state,
+                errors: {
+                    ...state.errors,
+                    passwordError: false,
+                },
                 isResetPassword: false,
-                passwordError: false,
+
             }
         }
-        case RESET_PASSWORD_ERROR: {
-            return {
-                ...state,
-                passwordError: action.code,
-                isResetPassword: false,
-            }
-        }
+
         case RESET_PASSWORD_PHASE: {
             return {
                 ...state,
@@ -75,7 +80,42 @@ export const userReducer = (state = initialState, action) => {
         case LOGOUT: {
             return {
                 ...initialState,
-                isUserLoaded: true,
+                isUserLoading: false,
+            }
+        }
+        case AUTH_REQUEST_ERROR: {
+            return {
+                ...state,
+                isAuthenticated: false,
+                isUserLoading: false,
+                errors: {
+                    authError: action.code,
+                }
+            }
+        }
+        case REGISTER_REQUEST_ERROR: {
+            return {
+                ...state,
+                errors: {
+                    registerError: action.code,
+                }
+            }
+        }
+        case RESET_PASSWORD_ERROR: {
+            return {
+                ...state,
+                errors: {
+                    passwordError: action.code,
+                },
+                isResetPassword: true,
+            }
+        }
+        case FORGOT_PASSWORD_ERROR: {
+            return {
+                ...state,
+                errors: {
+                    forgoPasswordError: action.code,
+                },
             }
         }
         default: {

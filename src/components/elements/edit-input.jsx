@@ -1,7 +1,6 @@
 import React, {useRef, useState} from "react";
 import {Input} from "@ya.praktikum/react-developer-burger-ui-components";
 
-
 const EditInput = ({
         value,
         onChange,
@@ -12,7 +11,6 @@ const EditInput = ({
         placeholder
     }) => {
     const [disabled, setDisabled] = useState(true);
-    const [currentError, setError] = useState(error);
 
     const inputRef = useRef(null);
 
@@ -21,12 +19,7 @@ const EditInput = ({
         setTimeout(() => inputRef.current?.focus(), 0);
     };
 
-    const onFocus = () => {
-        setError(false);
-    };
-
     const onBlur = () => {
-        setError(error);
         setDisabled(true);
     };
 
@@ -39,10 +32,9 @@ const EditInput = ({
             icon='EditIcon'
             value={value}
             ref={inputRef}
-            onFocus={onFocus}
             onBlur={onBlur}
             name={name}
-            error={Boolean(currentError)}
+            error={Boolean(error)}
             onIconClick={onIconClick}
             errorText={errorText}
             size='default'

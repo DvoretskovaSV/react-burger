@@ -11,7 +11,7 @@ const errorMessage = {
 
 const UserForm = () => {
     const dispatch = useDispatch();
-    const user = useSelector(store => store.user);
+    const user = useSelector(store => store.user.user);
     const profile = useSelector(store => store.profile.form);
     const isDirty = useSelector(store => store.profile.form.isDirty);
     const error = useSelector(store => store.profile.error);

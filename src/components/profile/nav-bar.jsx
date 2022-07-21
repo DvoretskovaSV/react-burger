@@ -11,45 +11,45 @@ const descriptions = {
 };
 
 const NavBar = () => {
-    const { path } = useRouteMatch();
-    const { pathname } = useLocation();
+    const {path} = useRouteMatch();
+    const {pathname} = useLocation();
     const dispatch = useDispatch();
     const history = useHistory();
 
     const handleLogout = (e) => {
         e.preventDefault();
-        dispatch(logout()).then(() => {
-            history.replace('/login');
-        });
+        dispatch(logout());
     }
 
-    return <div className={navStyles.wrap}>
-        <nav className={`mb-15 ${navStyles.nav}`}>
-            <Link
-                text="Профиль"
-                type="sub"
-                exact={true}
-                to={path}
+    return (
+        <div className={navStyles.wrap}>
+            <nav className={`mb-15 ${navStyles.nav}`}>
+                <Link
+                    text="Профиль"
+                    type="sub"
+                    exact={true}
+                    to={path}
                 >
-            </Link>
-            <Link
-                text="История заказов"
-                type="sub"
-                to={`${path}/orders`}
+                </Link>
+                <Link
+                    text="История заказов"
+                    type="sub"
+                    to={`${path}/orders`}
                 >
-            </Link>
-            <Link
-                text="Выход"
-                type="sub"
-                onClick={handleLogout}
-                to={`/logout`}
+                </Link>
+                <Link
+                    text="Выход"
+                    type="sub"
+                    onClick={handleLogout}
+                    to={`/logout`}
                 >
-            </Link>
-        </nav>
-        <div className={navStyles.description}>
-            {descriptions[pathname]}
+                </Link>
+            </nav>
+            <div className={navStyles.description}>
+                {descriptions[pathname]}
+            </div>
         </div>
-    </div>
+    )
 };
 
 export default NavBar;

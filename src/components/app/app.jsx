@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Switch, Route, useLocation} from 'react-router-dom';
+import {Switch, Route, useLocation, useHistory} from 'react-router-dom';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import {ForgotPasswordPage, LoginPage, MainPage, NotFound404, RegisterPage, ResetPasswordPage} from "../../pages/";
@@ -9,11 +9,15 @@ import {authenticate} from "../../services/actions/user";
 import ProtectedRouteNoAuth from "../protected-route-no-auth";
 import ProfilePage from "../../pages/profile";
 import IngredientPage from "../../pages/ingredient-page";
+import Modal from "../elements/modal/modal";
 
 
 const App = () => {
     const dispatch = useDispatch();
-    const {state} = useLocation();
+    const location = useLocation();
+    const history = useHistory();
+
+    const background = location.state && location.state.background;
 
     const init = () => {
         dispatch(authenticate());
@@ -27,7 +31,7 @@ const App = () => {
         <div className={styles.app}>
             <AppHeader/>
             <div className={styles.wrap}>
-                <Switch>
+                <Switch location={background || location}>
                     <Route path="/" exact={true}>
                         <MainPage/>
                     </Route>
@@ -52,14 +56,24 @@ const App = () => {
                         <ProfilePage/>
                     </ProtectedRoute>
 
-                    <Route path={`/ingredients/:id`} exact={true}>
-                        {state && state.isModal && state.ingredientId ? <MainPage/> : <IngredientPage />}
+                    <Route path='/ingredients/:ingredientId' exact={true}>
+                        <IngredientPage />
                     </Route>
 
                     <Route>
                         <NotFound404/>
                     </Route>
                 </Switch>
+                {background && (
+                    <Route path='/ingredients/:ingredientId'>
+                        <Modal
+                            onClose={() => history.goBack()}
+                            title="Детали ингредиента"
+                        >
+                            <IngredientPage />
+                        </Modal>
+                    </Route>
+                )}
             </div>
         </div>
     )

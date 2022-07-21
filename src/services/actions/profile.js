@@ -1,6 +1,6 @@
 import {updateProfile} from "../api";
 import {checkResponse} from "../../utils/util";
-import {SET_USER} from "./user";
+import {SET_USER, USER_REQUEST_SUCCESS} from "./user";
 
 export const SET_DEFAULT_VALUES = 'SET_DEFAULT_VALUES';
 export const SET_PROFILE_FORM_VALUE = 'SET_PROFILE_FORM_VALUE';
@@ -20,7 +20,7 @@ export const saveForm = () => (dispatch, getState) => {
         .then(checkResponse)
         .then((data) => {
         dispatch({
-            type: SET_USER,
+            type: USER_REQUEST_SUCCESS,
             ...data.user,
         });
 

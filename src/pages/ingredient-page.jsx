@@ -22,7 +22,7 @@ const IngredientPage = () => {
         return null;
     }
 
-    const ingredient = ingredients.find(ingredient => ingredient._id === params.id);
+    const ingredient = ingredients.find(ingredient => ingredient._id === params.ingredientId);
 
     return <>
         {!fetchError && !loading && <IngredientDetails {...ingredient} />}

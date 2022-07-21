@@ -1,25 +1,26 @@
-import { Redirect, Route } from 'react-router-dom';
+import {Redirect, Route} from 'react-router-dom';
 import {useSelector} from "react-redux";
+import Loader from "./elements/loader";
 
 const ProtectedRoute = ({ children, ...rest }) => {
     const isAuthenticated = useSelector(store => store.user.isAuthenticated);
-    const isUserLoaded = useSelector(store => store.user.isUserLoaded);
+    const isUserLoading = useSelector(store => store.user.isUserLoading);
 
-    if (!isUserLoaded) {
-        return null;
+    if (isUserLoading) {
+        return <Loader />;
     }
 
     return (
         <Route
             {...rest}
             render={({ location }) =>
-                isAuthenticated ? (
+                isAuthenticated && !isUserLoading ? (
                     children
                 ) : (
                     <Redirect
                         to={{
                             pathname: '/login',
-                            state: { from: location }
+                            state: { from: location.pathname }
                         }}
                     />
                 )

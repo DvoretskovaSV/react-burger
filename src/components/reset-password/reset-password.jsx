@@ -3,8 +3,8 @@ import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger
 import Link from "../elements/link";
 import UserForm from "../elements/user-form";
 import {useDispatch, useSelector} from "react-redux";
-import {useHistory} from "react-router-dom";
 import {resetPassword} from "../../services/actions/user";
+import useForm from "../../hooks/useForm";
 
 const errorMessage = {
     404: 'Некорректный токен'
@@ -12,30 +12,25 @@ const errorMessage = {
 
 const ResetPassword = () => {
     const dispatch = useDispatch();
-    const passwordError = useSelector(store => store.user.passwordError);
-
-    const onChange = e => {
-        setValue({ ...form, [e.target.name]: e.target.value });
-    };
-
-    const [form, setValue] = useState({password: '', token: ''});
+    const passwordError = useSelector(store => store.user.errors.passwordError);
+    const {values, handleChange} = useForm({password: '', token: ''});
 
     const handleSubmit = () => {
-        dispatch(resetPassword(form))
+        dispatch(resetPassword(values))
     }
 
-    return <>
+    return (
         <UserForm title="Восстановление пароля" handleSubmit={handleSubmit}>
             <PasswordInput
-                onChange={onChange}
-                value={form.password}
+                onChange={handleChange}
+                value={values.password}
                 name='password'
             />
             <Input
                 type='text'
                 placeholder='Введите код из письма'
-                onChange={onChange}
-                value={form.token}
+                onChange={handleChange}
+                value={values.token}
                 name='token'
                 error={Boolean(passwordError)}
                 errorText={passwordError ? errorMessage[passwordError] : ''}
@@ -49,7 +44,7 @@ const ResetPassword = () => {
                 <Link type="form" to="/login">Войти</Link>
             </div>
         </UserForm>
-    </>
+    )
 };
 
 export default ResetPassword;

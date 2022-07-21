@@ -41,24 +41,20 @@ export const loginRequest = async ({email, password}) =>
     });
 
 
-export const authenticateRequest = async () => {
-    const token = getCookie('token');
-
-    if (!token) return Promise.resolve();
-
-    return await fetch(AUTHENTICATE_URL, {
+export const authenticateRequest = async () =>
+    await fetch(AUTHENTICATE_URL, {
         method: 'GET',
         mode: 'cors',
         cache: 'no-cache',
         credentials: 'same-origin',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token,
+            Authorization: 'Bearer ' + getCookie('token'),
         },
         redirect: 'follow',
         referrerPolicy: 'no-referrer'
     });
-}
+
 
 
 export const logoutRequest = async () =>

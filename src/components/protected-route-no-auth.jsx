@@ -4,26 +4,25 @@ import {useEffect} from "react";
 
 const ProtectedRouteNoAuth = ({ children, ...rest }) => {
     const isAuthenticated = useSelector(store => store.user.isAuthenticated);
-    const isUserLoaded = useSelector(store => store.user.isUserLoaded);
+    const isUserLoading = useSelector(store => store.user.isUserLoading);
     const location = useLocation();
     const history = useHistory();
     const { from } = location.state || { from: { pathname: '/' } };
 
     useEffect(() => {
-        if (isAuthenticated && isUserLoaded) {
+        if (isAuthenticated && !isUserLoading) {
             history.replace(from);
         }
     });
 
-    if ((isAuthenticated && isUserLoaded) || !isUserLoaded) {
+    if (isAuthenticated || isUserLoading) {
         return null;
     }
 
     return (
         <Route
             {...rest}
-            render={( ) => (children)
-            }
+            render={() => children}
         />
     );
 }

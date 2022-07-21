@@ -28,11 +28,13 @@ export const signIn = async form => await loginRequest(form)
     });
 
 
-export const signOut = async () => {
-    deleteCookie('token');
-    await logoutRequest();
-    deleteCookie('refreshToken');
-};
+export const signOut = async () =>
+    await logoutRequest().then(checkResponse).then((res) => {
+        deleteCookie('token');
+        deleteCookie('refreshToken');
+
+        return res;
+    });;
 
 
 export const refreshToken = async () => await refreshTokenRequest()

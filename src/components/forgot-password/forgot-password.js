@@ -5,11 +5,13 @@ import UserForm from "../elements/user-form";
 import {useDispatch, useSelector} from "react-redux";
 import {forgotPassword} from "../../services/actions/user";
 import {useHistory} from "react-router-dom";
+import useForm from "../../hooks/useForm";
 
 const ForgotPassword = () => {
     const dispatch = useDispatch();
     const isResetPassword = useSelector(store => store.user.isResetPassword);
     const history = useHistory();
+    const {values, handleChange} = useForm({email: ''});
 
     useEffect(() => {
         if (isResetPassword) {
@@ -17,25 +19,20 @@ const ForgotPassword = () => {
         }
     }, [isResetPassword])
 
-    const [email, setValue] = useState('');
-
-    const onChange = e => {
-        setValue(e.target.value);
-    };
 
     const handleSubmit = () => {
-       dispatch(forgotPassword(email));
+        dispatch(forgotPassword(values));
     };
 
-    return <>
+    return (
         <UserForm title="Восстановление пароля" handleSubmit={handleSubmit}>
             <Input
                 type='email'
                 placeholder={'Укажите e-mail'}
-                onChange={onChange}
-                value={email}
-                name={'name'}
-                size={'default'}
+                onChange={handleChange}
+                value={values.email}
+                name='email'
+                size='default'
             />
             <Button type="primary" size="medium">
                 Восстановить
@@ -45,8 +42,7 @@ const ForgotPassword = () => {
                 <Link type="form" to="/login">Войти</Link>
             </div>
         </UserForm>
-
-    </>
+    )
 };
 
 export default ForgotPassword;

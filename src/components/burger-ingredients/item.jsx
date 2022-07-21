@@ -9,7 +9,7 @@ import Modal from "../elements/modal/modal";
 import IngredientDetails from "./details";
 import {useDispatch, useSelector} from "react-redux";
 import {closeModalIngredient} from "../../services/actions/modal";
-import {NavLink, useHistory} from "react-router-dom";
+import {NavLink, useHistory, useLocation} from "react-router-dom";
 
 const IngredientsItem = ({ingredient, className = ''}) => {
     const dispatch = useDispatch();
@@ -18,6 +18,7 @@ const IngredientsItem = ({ingredient, className = ''}) => {
     const isOpenIngredient = useSelector(store => store.modal.isOpenIngredient);
     const openIdIngredient = useSelector(store => store.modal.openIdIngredient);
     const history = useHistory();
+    const location = useLocation();
 
     const [{opacity}, drag] = useDrag(
         () => ({
@@ -51,7 +52,7 @@ const IngredientsItem = ({ingredient, className = ''}) => {
                 <NavLink
                     to={{
                         pathname: `/ingredients/${_id}`,
-                        state: {isModal: true, ingredientId: _id}
+                        state: { background: location }
                     }}
                     className={ingredientStyles.link}></NavLink>
             </li>

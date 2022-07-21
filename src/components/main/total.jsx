@@ -30,9 +30,7 @@ const Total = ({total = 0}) => {
     }
 
     const handleClose = () => {
-        if (!isLoading) {
-            dispatch(closeModalOrder());
-        }
+        dispatch(closeModalOrder());
     }
 
     return (
@@ -49,7 +47,7 @@ const Total = ({total = 0}) => {
                 <Modal
                     isOpen={isOpenModal}
                     onClose={handleClose}
-                    title={isLoading && !fetchError && "Обработка заказа"}
+                    title={(isLoading && !fetchError && "Обработка заказа") || ''}
                 >
                     {isLoading && !fetchError && <Loader />}
                     {!isLoading && !fetchError && <OrderDetails {...order}/>}
