@@ -10,7 +10,7 @@ const IngredientDetails = ({
                                carbohydrates = '-',
                                proteins = '-'
                            }) => (
-    <div>
+    <div className={detailsStyles.wrap}>
         <img src={image_large} alt={name} className="mb-4"/>
         <h2 className="mb-8">{name}</h2>
         <div className={detailsStyles.details}>

@@ -9,17 +9,24 @@ import {createOrder} from "../../services/actions/order";
 import {closeModalOrder} from "../../services/actions/modal";
 import Loader from "../elements/loader";
 import FetchError from "../elements/fetch-error";
+import {useHistory} from "react-router-dom";
 
 const Total = ({total = 0}) => {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const isOpenModal = useSelector(store => store.modal.isOpenModalOrder);
     const order = useSelector(store => store.order.order);
     const isLoading = useSelector(store => store.order.loading);
     const fetchError = useSelector(store => store.order.fetchError);
+    const isAuthenticated = useSelector(store => store.user.isAuthenticated);
 
     const handlerClick = () => {
-        dispatch(createOrder());
+        if (isAuthenticated) {
+            dispatch(createOrder());
+        } else {
+            history.replace("/login");
+        }
     }
 
     const handleClose = () => {
@@ -40,8 +47,9 @@ const Total = ({total = 0}) => {
                 <Modal
                     isOpen={isOpenModal}
                     onClose={handleClose}
+                    title={(isLoading && !fetchError && "Обработка заказа") || ''}
                 >
-                    {isLoading && !fetchError && <Loader/>}
+                    {isLoading && !fetchError && <Loader />}
                     {!isLoading && !fetchError && <OrderDetails {...order}/>}
                     {fetchError && <FetchError />}
             </Modal>}

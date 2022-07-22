@@ -1,0 +1,6 @@
+.wrap {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    column-gap: calc(var(--offset-base-size) * 15);
+    margin: 10vh 0;
+}

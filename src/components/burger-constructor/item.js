@@ -3,8 +3,7 @@ import listStyles from "./constructor.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDrag, useDrop} from "react-dnd";
 import PropTypes from "prop-types";
-import BurgerConstructor from "./constructor";
-import {ingredientConstructor} from "../../../utils/types/ingredient-constructor";
+import {ingredientConstructor} from "../../utils/types/ingredient-constructor";
 
 const ConstructorItem = ({item, handleClose, index, moveOrder}) => {
     const {uuid} = item;

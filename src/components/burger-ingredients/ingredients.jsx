@@ -1,7 +1,7 @@
 import React from 'react';
 import ingredientsStyles from './ingredients.module.css';
 import PropTypes from "prop-types";
-import ModalOverlay from "../../elements/modal/modal-overlay";
+import ModalOverlay from "../elements/modal/modal-overlay";
 import IngredientsItem from "./item";
 
 const BurgerIngredients = ({ingredients}) => (

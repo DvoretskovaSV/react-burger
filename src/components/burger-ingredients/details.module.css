@@ -1,3 +1,11 @@
+.wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
 .details {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

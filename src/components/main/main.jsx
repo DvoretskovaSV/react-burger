@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useCallback, createRef} from 'react';
 import mainStyles from './main.module.css';
-import BurgerIngredients from "./burger-ingredients/ingredients";
-import BurgerConstructor from "./burger-constructor/constructor";
+import BurgerIngredients from "../burger-ingredients/ingredients";
+import BurgerConstructor from "../burger-constructor/constructor";
 import Tabs from "../elements/tabs";
 import FetchError from "../elements/fetch-error";
 import Loader from "../elements/loader";

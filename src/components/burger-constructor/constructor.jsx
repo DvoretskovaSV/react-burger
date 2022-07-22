@@ -8,9 +8,9 @@ import {useDrop} from "react-dnd";
 import {useDispatch} from "react-redux";
 import {
     addIngredient, addLock, removeIngredient, changeOrder
-} from "../../../services/actions/constructor";
+} from "../../services/actions/constructor";
 import ConstructorItem from "./item";
-import {ingredientConstructor} from "../../../utils/types/ingredient-constructor";
+import {ingredientConstructor} from "../../utils/types/ingredient-constructor";
 
 const BurgerConstructor = ({items, lockItem}) => {
     const dispatch = useDispatch();
