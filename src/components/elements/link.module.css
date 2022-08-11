@@ -1,14 +1,33 @@
 .link {
     text-decoration: none;
-    display: flex;
+    display: inline-flex;
     flex-wrap: nowrap;
     flex-direction: row;
     align-items: center;
-    gap: 8px;
+
+}
+
+.nav {
     color: var(--text-inactive-color);
     border-radius: 40px;
+    gap: 8px;
+    padding: calc(var(--offset-base-size) * 5);;
+}
+
+.sub {
+    color: #8585AD;
+    font-size: 24px;
+    padding: 18px 0;
+}
+
+.form {
+    color: #4C4CFF;
 }
 
 .active {
     color: #F2F2F3;
+}
+
+.active svg {
+    fill: #F2F2F3;
 }
