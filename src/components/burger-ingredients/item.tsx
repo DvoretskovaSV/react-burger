@@ -11,12 +11,12 @@ import {NavLink, useHistory, useLocation} from "react-router-dom";
 import {TIngredient} from "../../utils/types";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 
-type IProps = {
+type TProps = {
     ingredient: TIngredient;
     className: string;
 }
 
-const IngredientsItem: FC<IProps> = ({ingredient, className = ''}) => {
+const IngredientsItem: FC<TProps> = ({ingredient, className = ''}) => {
     const dispatch = useAppDispatch();
 
     const {image, name, price, _id, type, count} = ingredient;

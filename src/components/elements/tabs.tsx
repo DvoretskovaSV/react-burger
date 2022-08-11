@@ -4,13 +4,13 @@ import tabsStyles from './tabs.module.css';
 import {TSection, SectionsType} from "../../utils/types";
 
 
-type IProps = {
+type TProps = {
     sections: Array<TSection>;
     current: string;
     onClick: (value: SectionsType) => void;
 };
 
-const Tabs: FC<IProps> = ({sections, current, onClick}) => (
+const Tabs: FC<TProps> = ({sections, current, onClick}) => (
     <div className={tabsStyles.tabs}>
         {sections.map((section, index) => (
             // @ts-ignore

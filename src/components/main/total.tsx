@@ -11,11 +11,11 @@ import {useHistory} from "react-router-dom";
 import {TOrder} from "../../utils/types";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 
-type IProps = {
+type TProps = {
     total?: number;
 }
 
-const Total: FC<IProps> = ({total = 0}) => {
+const Total: FC<TProps> = ({total = 0}) => {
     const dispatch = useAppDispatch();
     const history = useHistory();
 

@@ -11,12 +11,12 @@ import ConstructorItem from "./item";
 import {TConstructorIngredientItem, TIngredient} from "../../utils/types";
 import {useAppDispatch} from "../../hooks";
 
-type IProps = {
+type TProps = {
     items: Array<TConstructorIngredientItem>;
     lockItem?: TIngredient | undefined;
 };
 
-const BurgerConstructor: FC<IProps> = ({items, lockItem}) => {
+const BurgerConstructor: FC<TProps> = ({items, lockItem}) => {
     const dispatch = useAppDispatch();
 
     const onDrop = (item: TIngredient) => {

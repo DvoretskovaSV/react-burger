@@ -1,7 +1,7 @@
 import React, {FC, useRef, useState} from "react";
 import {Input} from "@ya.praktikum/react-developer-burger-ui-components";
 
-type IProps = {
+type TProps = {
     value: string,
     onChange(e: React.ChangeEvent<HTMLInputElement>): void;
     name: string,
@@ -11,7 +11,7 @@ type IProps = {
     placeholder: string,
 };
 
-const EditInput: FC<IProps> = ({
+const EditInput: FC<TProps> = ({
         value,
         onChange,
         name,

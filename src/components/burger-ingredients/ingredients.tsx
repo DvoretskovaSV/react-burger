@@ -3,11 +3,11 @@ import ingredientsStyles from './ingredients.module.css';
 import IngredientsItem from "./item";
 import {TIngredient} from "../../utils/types";
 
-type IProps = {
+type TProps = {
     ingredients: Array<TIngredient>;
 }
 
-const BurgerIngredients: FC<IProps> = ({ingredients}) => (
+const BurgerIngredients: FC<TProps> = ({ingredients}) => (
     <ul className={`${ingredientsStyles.list} pl-4 pr-4`}>
         {ingredients.map(item => (
             <IngredientsItem

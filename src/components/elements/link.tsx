@@ -9,7 +9,7 @@ type LocationType = {
     state?: LocationType;
 };
 
-type IProps = {
+type TProps = {
     text?: string;
     type?: 'nav' | 'form' | 'sub';
     children?: JSX.Element | Array<JSX.Element>;
@@ -18,7 +18,7 @@ type IProps = {
     onClick?: (e: any) => void;
 } & LocationType;
 
-const Link: FC<IProps> = (props ) => {
+const Link: FC<TProps> = (props ) => {
     const {text, type = 'nav', children} = props;
 
     return (

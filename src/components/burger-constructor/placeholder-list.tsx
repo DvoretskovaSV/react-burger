@@ -1,11 +1,11 @@
 import React, {FC} from "react";
 import listStyles from "./placeholder-list.module.css";
 
-type IProps = {
+type TProps = {
     className?: string;
 };
 
-const PlaceholderList: FC<IProps> = ({className = ''}) => (
+const PlaceholderList: FC<TProps> = ({className = ''}) => (
     <div className={`${listStyles.section} ${className}`}>
         <span>Выберите ингредиенты</span>
     </div>

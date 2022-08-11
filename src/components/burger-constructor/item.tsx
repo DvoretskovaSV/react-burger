@@ -5,7 +5,7 @@ import {useDrag, useDrop} from "react-dnd";
 import {TConstructorIngredientItem} from "../../utils/types";
 import {DragElementWrapper} from "react-dnd/src/types/connectors";
 
-type IProps = {
+type TProps = {
     item: TConstructorIngredientItem,
     handleClose: () => void;
     index: number;
@@ -20,7 +20,7 @@ interface IDragItem {
     uuid?: string;
 }
 
-const ConstructorItem: FC<IProps> = ({item, handleClose, index, moveOrder}) => {
+const ConstructorItem: FC<TProps> = ({item, handleClose, index, moveOrder}) => {
     const {uuid} = item;
     const ref = useRef<HTMLLIElement>(null)
 

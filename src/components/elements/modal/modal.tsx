@@ -4,14 +4,14 @@ import {createPortal} from "react-dom";
 import modalStyles from './modal.module.css';
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
-type IProps = {
+type TProps = {
     children: JSX.Element | JSX.Element[] | null,
     onClose: () => void;
     title?: string;
     isOpen?: boolean;
 };
 
-const Modal: FC<IProps> = ({title, children, onClose}) => {
+const Modal: FC<TProps> = ({title, children, onClose}) => {
     const keyDownHandler = useCallback(({ key }: { key: string }) => {
         switch (key) {
             case 'Escape':

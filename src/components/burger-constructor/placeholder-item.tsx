@@ -1,11 +1,11 @@
 import React, {FC} from "react";
 import itemStyles from "./placeholder-item.module.css";
 
-type IProps = {
+type TProps = {
     className: string;
 };
 
-const PlaceholderItem: FC<IProps> = ({ className = '' }) => (
+const PlaceholderItem: FC<TProps> = ({ className = '' }) => (
     <div className={`${itemStyles.item} ${className}`}></div>
 );
 
