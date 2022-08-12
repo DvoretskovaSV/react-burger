@@ -1,16 +1,9 @@
-interface IResponse extends Response {
-    readonly ok: boolean;
-    readonly redirected: boolean;
-    readonly status: number;
-    readonly statusText: string;
-}
-
 type DataRequest = {
     [props: string]: any;
 }
 
 
-export const checkResponse = (response: IResponse) : Promise<DataRequest> => {
+export const checkResponse = (response: Response) : Promise<DataRequest> => {
     if (!response || (response && !response.ok)) {
        return Promise.reject(response);
     }

@@ -1,9 +1,9 @@
-import React, {FC, useRef, useState} from "react";
+import React, {ChangeEvent, FC, useRef, useState} from "react";
 import {Input} from "@ya.praktikum/react-developer-burger-ui-components";
 
 type TProps = {
     value: string,
-    onChange(e: React.ChangeEvent<HTMLInputElement>): void;
+    onChange(e: ChangeEvent<HTMLInputElement>): void;
     name: string,
     type?: 'text' | 'email' | 'password';
     error?: boolean,

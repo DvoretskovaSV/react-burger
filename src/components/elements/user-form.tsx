@@ -2,7 +2,7 @@ import React, {FC} from "react";
 import formStyles from "./user-form.module.css";
 
 type TProps = {
-    handleSubmit: (e: React.SyntheticEvent<HTMLFormElement>) => void;
+    handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     title?: string;
     children: JSX.Element | Array<JSX.Element>,
 };

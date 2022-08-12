@@ -1,9 +1,10 @@
-import {useState} from "react";
+import {ChangeEvent, useState} from "react";
+import {Form} from "../utils/types";
 
-const useForm = (inputValues) => {
+const useForm = (inputValues: Form) => {
     const [values, setValues] = useState(inputValues);
 
-    const handleChange = (event) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const {value, name} = event.target;
         setValues({...values, [name]: value});
     };

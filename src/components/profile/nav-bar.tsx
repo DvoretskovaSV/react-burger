@@ -16,7 +16,7 @@ const NavBar: FC = () => {
     const {pathname} = useLocation();
     const dispatch = useAppDispatch();
 
-    const handleLogout = (e: { preventDefault: () => void; }) => {
+    const handleLogout = (e: MouseEvent) => {
         e.preventDefault();
         dispatch(logout() as any);
     }

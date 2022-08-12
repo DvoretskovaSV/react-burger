@@ -12,7 +12,7 @@ type TProps = {
 };
 
 const Modal: FC<TProps> = ({title, children, onClose}) => {
-    const keyDownHandler = useCallback(({ key }: { key: string }) => {
+    const keyDownHandler = useCallback(({ key }: KeyboardEvent) => {
         switch (key) {
             case 'Escape':
                 onClose();

@@ -16,8 +16,7 @@ const Register: FC = () => {
     const {values, handleChange} = useForm({name: '', email: '', password: ''});
     const {registerError} = useAppSelector(store => store.user.errors);
 
-    const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleSubmit = () => {
         dispatch(registrate(values) as any);
     }
 

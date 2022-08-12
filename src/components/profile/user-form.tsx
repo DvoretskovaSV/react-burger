@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from "react";
+import React, {ChangeEvent, FC, SyntheticEvent, useEffect} from "react";
 import formStyles from "./user-form.module.css";
 import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import EditInput from "../elements/edit-input";
@@ -16,7 +16,7 @@ const UserForm: FC = () => {
     const {form, error} = useAppSelector(store => store.profile);
     const { isDirty } = useAppSelector(store => store.profile.form);
 
-    const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(saveForm() as any);
     };
@@ -25,13 +25,13 @@ const UserForm: FC = () => {
         dispatch(setProfileUser(user));
     }, [user]);
 
-    const onChange = (e: { target: { name: any; value: any; }; }) => {
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch({
             type: SET_PROFILE_FORM_VALUE, field: e.target.name, value: e.target.value
         })
     };
 
-    const handleCancelClick = (e: { preventDefault: () => void; }) => {
+    const handleCancelClick = (e: MouseEvent) => {
         e.preventDefault();
         dispatch(setProfileUser(user));
     }

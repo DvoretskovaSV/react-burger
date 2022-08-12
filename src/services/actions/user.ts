@@ -66,7 +66,7 @@ export const login = (form: Form) => (dispatch: any) =>
     });
 
 
-export const forgotPassword = ({email}: {email: string}) => (dispatch: any) => {
+export const forgotPassword = ({email}: Form) => (dispatch: any) => {
     forgotPasswordUser(email).then(checkResponse).then((data) => {
         if (data.success) {
             dispatch({type: RESET_PASSWORD_PHASE});
