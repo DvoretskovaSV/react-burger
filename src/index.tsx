@@ -10,8 +10,8 @@ import { Provider } from 'react-redux';
 import {rootReducer} from "./services/reducers";
 import jwtRefresh from "./middleware/jwtRefreshMiddleware";
 
-const composeEnhancers = process.env.NODE_ENV !== 'production' &&
-    (window as any)['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose || compose;
+const composeEnhancers = (process.env.NODE_ENV !== 'production' &&
+    (window as any)['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose) || compose;
 
 const enhancer = composeEnhancers(applyMiddleware(jwtRefresh, thunk));
 const store = createStore(rootReducer, enhancer);
@@ -33,3 +33,6 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
