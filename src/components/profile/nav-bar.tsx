@@ -8,7 +8,7 @@ import {useAppDispatch} from "../../hooks";
 
 const descriptions: TMessages = {
     '/profile': `В этом разделе вы можете \n изменить свои персональные данные`,
-    '/profile/orders': 'Список заказов',
+    '/profile/orders': 'В этом разделе вы можете посмотреть свою историю заказов',
 };
 
 const NavBar: FC = () => {
@@ -18,7 +18,7 @@ const NavBar: FC = () => {
 
     const handleLogout = (e: MouseEvent) => {
         e.preventDefault();
-        dispatch(logout() as any);
+        dispatch(logout());
     }
 
     return (

@@ -1,4 +1,4 @@
-type IngredientType = 'main' | 'bun' | 'sauce';
+export type IngredientType = 'main' | 'bun' | 'sauce';
 
 export enum SectionsType {
     bun = 'bun',
@@ -10,6 +10,30 @@ export enum SectionText {
     bun = 'Булки',
     sauce = 'Соусы',
     main = 'Начинки'
+}
+
+export enum OrderStatusesType {
+    done = 'done',
+    created = 'created',
+    pending = 'pending'
+}
+
+export enum OrderStatusesText {
+    done = 'Готовы',
+    created = 'Создан',
+    pending = 'В процессе'
+}
+
+export enum OrderStatusText {
+    done = 'Выполнен',
+    created = 'Создан',
+    pending = 'В процессе'
+}
+
+export enum ConnectionStatus {
+    pending = 'pending',
+    open = 'open',
+    close = 'close'
 }
 
 export type TSection = {
@@ -66,3 +90,13 @@ export type TOrder = {
 export type TMessages = {
     [key: string] : string;
 }
+
+export type TFeedOrder = {
+    createdAt: Date,
+    ingredients: Array<string>,
+    name: string,
+    number: number,
+    status: OrderStatusesType,
+    updatedAt: Date,
+    _id: string
+};

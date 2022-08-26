@@ -28,7 +28,7 @@ const Login: FC = () => {
     const { from } = location.state || {from: {pathname: '/'}};
 
     const handleSubmit = async () => {
-        dispatch(login(values) as any);
+        dispatch(login(values));
     }
 
     return (
@@ -53,7 +53,7 @@ const Login: FC = () => {
                 Войти
             </Button>
             <div className="mb-4 text text_type_main-default">
-                <span className="question">Вы - новый пользователь? </span>
+                <span className="sub_text">Вы - новый пользователь? </span>
                 <Link to={{
                         pathname: "/register",
                         state: {from}
@@ -62,7 +62,7 @@ const Login: FC = () => {
                       text="Зарегистрироваться"/>
             </div>
             <div className="text text_type_main-default">
-                <span className="question">Забыли пароль? </span>
+                <span className="sub_text">Забыли пароль? </span>
                 <Link type="form" to="/forgot-password" text="Восстановить пароль" />
             </div>
         </UserForm>

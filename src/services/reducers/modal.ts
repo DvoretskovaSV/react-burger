@@ -1,5 +1,11 @@
-import {CLOSE_MODAL_INGREDIENT, CLOSE_MODAL_ORDER, OPEN_MODAL_INGREDIENT, OPEN_MODAL_ORDER} from "../actions/modal";
-import {AnyAction} from "redux";
+import {
+    CLOSE_MODAL_INGREDIENT,
+    CLOSE_MODAL_ORDER,
+    OPEN_MODAL_INGREDIENT,
+    OPEN_MODAL_ORDER,
+    SHOW_MODAL_ORDER,
+    TModalActions
+} from "../actions/modal";
 import {TOrder} from "../../utils/types";
 
 interface IState {
@@ -18,17 +24,23 @@ const initialState: IState = {
     order: null,
 };
 
-export const modalReducer = (state = initialState, action: AnyAction) : IState => {
+export const modalReducer = (state = initialState, action: TModalActions) : IState => {
     switch (action.type) {
         case OPEN_MODAL_ORDER:
             return {
                 ...state,
-                isOpenModalOrder: true
+                isOpenModalOrder: true,
+            };
+        case SHOW_MODAL_ORDER:
+            return {
+                ...state,
+                order: action.order,
             };
         case CLOSE_MODAL_ORDER:
             return {
                 ...state,
-                isOpenModalOrder: false
+                isOpenModalOrder: false,
+                order: initialState.order
             };
         case OPEN_MODAL_INGREDIENT:
             return {

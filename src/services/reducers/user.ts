@@ -6,14 +6,13 @@ import {
     USER_REQUEST_SUCCESS,
     NO_USER,
     AUTH_REQUEST_ERROR,
-    REGISTER_REQUEST_ERROR, FORGOT_PASSWORD_ERROR
+    REGISTER_REQUEST_ERROR, FORGOT_PASSWORD_ERROR, TUserActions
 } from "../actions/user";
-import {AnyAction} from "redux";
 import {TUser} from "../../utils/types";
 
 
 type Errors = {
-    [props: string]: boolean | string
+    [props: string]: boolean | string | unknown;
 }
 
 interface IState<T = TUser, E = Errors> {
@@ -42,7 +41,7 @@ const initialState: IState = {
 };
 
 
-export const userReducer = (state = initialState, action: AnyAction): IState => {
+export const userReducer = (state = initialState, action: TUserActions): IState => {
     switch (action.type) {
         case NO_USER: {
             return {

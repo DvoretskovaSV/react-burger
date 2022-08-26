@@ -1,14 +1,14 @@
 import jwtDecode from 'jwt-decode';
 import {getCookie} from "../utils/util";
 import {refreshToken} from "../services/auth";
-import { Action } from 'redux'
+import {Middleware} from "redux";
 
 type Token = {
     exp: number;
 }
 
-const jwtRefresh = () => {
-    return (next: (arg: Action) => any) => (action: Action) => {
+const jwtRefresh: Middleware = () => {
+    return (next) => (action) => {
             if (typeof action === 'function') {
                 const token = getCookie('token');
 

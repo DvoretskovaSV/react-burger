@@ -18,7 +18,7 @@ const AppHeader: FC = () =>
                     <Link text="Конструктор" to="/" exact={true}>
                         <BurgerIcon type="secondary"/>
                     </Link>
-                    <Link text="Лента заказов" to="/profile/orders">
+                    <Link text="Лента заказов" to="/feed">
                         <ListIcon type="secondary"/>
                     </Link>
                 </div>

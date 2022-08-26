@@ -11,9 +11,14 @@ import IngredientPage from "../../pages/ingredient-page";
 import Modal from "../elements/modal/modal";
 import {Location} from "history";
 import {useAppDispatch} from "../../hooks";
+import OrdersPage from "../../pages/orders-page";
+import OrderPage from "../../pages/order-page";
+import UserOrderPage from "../../pages/user-order-page";
+import {getIngredients} from "../../services/actions/ingredients";
 
 type stateType = {
     background?: stateType;
+    number?: number;
 } & Location;
 
 const App: FC = () => {
@@ -24,11 +29,12 @@ const App: FC = () => {
     const background = location.state && location.state.background;
 
     const init = () => {
-        dispatch(authenticate() as any);
+        dispatch(authenticate());
     };
 
     useEffect(() => {
         init();
+        dispatch(getIngredients());
     }, []);
 
     return (
@@ -38,6 +44,10 @@ const App: FC = () => {
                 <Switch location={background || location}>
                     <Route path="/" exact={true}>
                         <MainPage/>
+                    </Route>
+
+                    <Route path="/feed" exact={true}>
+                        <OrdersPage/>
                     </Route>
 
                     <ProtectedRouteNoAuth path="/register" exact={true}>
@@ -56,27 +66,60 @@ const App: FC = () => {
                         <ResetPasswordPage/>
                     </ProtectedRouteNoAuth>
 
+                    <Route path='/ingredients/:ingredientId' exact={true}>
+                        <IngredientPage/>
+                    </Route>
+
+                    <Route path='/feed/:id' exact={true}>
+                        <OrderPage/>
+                    </Route>
+
+                    <ProtectedRoute path='/profile/orders/:id' exact={true}>
+                        <UserOrderPage/>
+                    </ProtectedRoute>
+
                     <ProtectedRoute path="/profile">
                         <ProfilePage/>
                     </ProtectedRoute>
-
-                    <Route path='/ingredients/:ingredientId' exact={true}>
-                        <IngredientPage />
-                    </Route>
 
                     <Route>
                         <NotFound404/>
                     </Route>
                 </Switch>
                 {background && (
-                    <Route path='/ingredients/:ingredientId'>
-                        <Modal
-                            onClose={() => history.goBack()}
-                            title="Детали ингредиента"
-                        >
-                            <IngredientPage />
-                        </Modal>
-                    </Route>
+                    <>
+                        <Route path='/ingredients/:ingredientId'>
+                            <Modal
+                                onClose={() => history.goBack()}
+                                title="Детали ингредиента"
+                                contentClassName="pb-15 pr-25 pl-25"
+                            >
+                                <IngredientPage/>
+                            </Modal>
+                        </Route>
+                        <Route path='/feed/:id'>
+                            <Modal
+                                onClose={() => history.goBack()}
+                                title={
+                                    <div className="text text_type_digits-default">#{location.state?.number}</div>
+                                }
+                                contentClassName="pb-10 pr-10 pl-10"
+                            >
+                                <OrderPage/>
+                            </Modal>
+                        </Route>
+                        <ProtectedRoute path='/profile/orders/:id'>
+                            <Modal
+                                onClose={() => history.goBack()}
+                                title={
+                                    <div className="text text_type_digits-default">#{location.state?.number}</div>
+                                }
+                                contentClassName="pb-10 pr-10 pl-10"
+                            >
+                                <UserOrderPage/>
+                            </Modal>
+                        </ProtectedRoute>
+                    </>
                 )}
             </div>
         </div>

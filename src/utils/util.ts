@@ -1,3 +1,5 @@
+import moment from "moment/moment";
+
 type DataRequest = {
     [props: string]: any;
 }
@@ -46,4 +48,8 @@ export const setCookie = (name: string, value: string = '', props: { [key: strin
 
 export const deleteCookie = (name: string) => {
     setCookie(name, '', { expires: -1 });
+}
+
+export const formatDate = (date: Date) => {
+    return `${moment(date, true).calendar()} ${moment(date).format(' [i-GMT]Z')}`;
 }

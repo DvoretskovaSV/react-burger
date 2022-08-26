@@ -9,11 +9,15 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import {rootReducer} from "./services/reducers";
 import jwtRefresh from "./middleware/jwtRefreshMiddleware";
+import socketMiddleware from "./middleware/socketMiddleware";
+import moment from 'moment'
+import 'moment/locale/ru';
+moment.locale('ru')
 
 const composeEnhancers = (process.env.NODE_ENV !== 'production' &&
     (window as any)['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose) || compose;
 
-const enhancer = composeEnhancers(applyMiddleware(jwtRefresh, thunk));
+const enhancer = composeEnhancers(applyMiddleware(jwtRefresh, thunk, socketMiddleware));
 const store = createStore(rootReducer, enhancer);
 
 const root = ReactDOM.createRoot(

@@ -58,13 +58,14 @@ const IngredientsItem: FC<TProps> = ({ingredient, className = ''}) => {
                         pathname: `/ingredients/${_id}`,
                         state: { background: location }
                     }}
-                    className={ingredientStyles.link}></NavLink>
+                    className={ingredientStyles.link}>
+                </NavLink>
             </li>
             {isOpenIngredient && openIdIngredient === ingredient._id &&
                 <Modal
                     title="Детали ингредиента"
-
                     onClose={handleClose}
+                    contentClassName="pb-15 pr-25 pl-25"
                 >
                     <IngredientDetails {...ingredient}/>
                 </Modal>

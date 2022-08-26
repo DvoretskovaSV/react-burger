@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {FC, useEffect} from "react";
 import {getIngredients} from "../services/actions/ingredients";
 import Loader from "../components/elements/loader";
 import FetchError from "../components/elements/fetch-error";
@@ -11,12 +11,12 @@ interface MatchParams {
     ingredientId: string;
 }
 
-const IngredientPage = () => {
+const IngredientPage: FC = () => {
     const dispatch = useAppDispatch();
     const { loading, fetchError, ingredients } = useAppSelector(store => store.ingredients);
 
     useEffect(() => {
-        dispatch(getIngredients() as any);
+        dispatch(getIngredients());
     }, []);
 
     const { params } = useRouteMatch<MatchParams>();

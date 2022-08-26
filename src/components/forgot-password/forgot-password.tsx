@@ -21,7 +21,7 @@ const ForgotPassword: FC = () => {
 
 
     const handleSubmit = () => {
-        dispatch(forgotPassword(values) as any);
+        dispatch(forgotPassword(values));
     };
 
     return (
@@ -39,7 +39,7 @@ const ForgotPassword: FC = () => {
                 Восстановить
             </Button>
             <div className="text text_type_main-default">
-                <span className="question">Вспомнили пароль? </span>
+                <span className="sub_text">Вспомнили пароль? </span>
                 <Link type="form" to="/login" text="Войти" />
             </div>
         </UserForm>
