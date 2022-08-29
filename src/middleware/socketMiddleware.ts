@@ -1,10 +1,5 @@
 import {
-    TWebSocketActions,
-    WS_CONNECTION_CLOSE,
-    WS_CONNECTION_CLOSED,
-    WS_CONNECTION_START,
-    WS_CONNECTION_SUCCESS,
-    WS_GET_MESSAGE
+    TWebSocketActions, wsActions,
 } from "../services/actions/ws";
 import {ConnectionStatus} from "../utils/types";
 import {getCookie} from "../utils/util";
@@ -12,14 +7,15 @@ import {Middleware} from "redux";
 
 const getOrigin = (url: string): string => url.split("?")[0];
 
-const socketMiddleware: Middleware = (store) => {
+const socketMiddleware = (wsActions: wsActions): Middleware  => (store) => {
     let connections: { [key: string]: WebSocket } = {};
+    const {wsInit, wsSendMessage, onOpen, wsClosed, onClose} = wsActions;
 
     return (next) => (action: TWebSocketActions) => {
         const { dispatch, getState } = store;
         const { type } = action;
 
-        if (type === WS_CONNECTION_START) {
+        if (type === wsInit) {
             const { payload } = action;
             const token = getCookie('token');
 
@@ -35,7 +31,7 @@ const socketMiddleware: Middleware = (store) => {
 
                 socket.onopen = (event) => {
                     dispatch({
-                        type: WS_CONNECTION_SUCCESS,
+                        type: onOpen,
                         payload: { url: getOrigin((event.currentTarget as WebSocket).url)}
                     });
                 };
@@ -50,7 +46,7 @@ const socketMiddleware: Middleware = (store) => {
                     const { success, ...restParsedData } = parsedData;
 
                     dispatch({
-                        type: WS_GET_MESSAGE,
+                        type: wsSendMessage,
                         payload: {
                             url: getOrigin((event.currentTarget as WebSocket).url),
                             messages: restParsedData,
@@ -60,7 +56,7 @@ const socketMiddleware: Middleware = (store) => {
 
                 socket.onclose = event => {
                     dispatch({
-                        type: WS_CONNECTION_CLOSED,
+                        type: wsClosed,
                         payload: {
                             url: getOrigin((event.currentTarget as WebSocket).url),
                         }
@@ -70,7 +66,7 @@ const socketMiddleware: Middleware = (store) => {
             }
         }
 
-        if (type === WS_CONNECTION_CLOSE) {
+        if (type === onClose) {
             const { payload } = action;
             const { url } = payload;
             const connection = getState().ws.openConnections[url];

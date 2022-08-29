@@ -98,3 +98,12 @@ export const connectionCloseUserOrders = () : IConnectionClose => {
         }
     };
 };
+
+export type wsActions = {
+    wsInit: typeof WS_CONNECTION_START,
+    wsSendMessage: typeof WS_GET_MESSAGE,
+    onOpen: typeof WS_CONNECTION_SUCCESS,
+    wsClosed: typeof WS_CONNECTION_CLOSED,
+    onMessage: typeof WS_GET_MESSAGE,
+    onClose: typeof WS_CONNECTION_CLOSE
+};

@@ -27,21 +27,18 @@ const Status: FC = () => {
 
     return <div className={statusStyles.wrap}>
         {Object.values(orderStatuses).map(item => {
-            if (!item.text) return null;
-            return Array.apply(null,
-                Array(Math.ceil(mapOrders[item.internalType] ? mapOrders[item.internalType].length / 10 : 1))
-            ).map((_, index) =>
-                <div key={item.typeId + index}>
+                if (!item.text) return null;
+                return <div key={item.typeId}>
                     <h3>{item.text}:</h3>
                     <ul className={`${statusStyles.section} text text_type_digits-default ${statusStyles[item.typeId]} ${item.typeId}`}>
-                        {(mapOrders[item.internalType] || []).slice(index * 10, (index + 1) * 10).map(item =>
+                        {(mapOrders[item.internalType] || []).slice(0, 10).map(item =>
                             <li key={item}>
                                 {item}
                             </li>
                         )}
                     </ul>
                 </div>
-            ) }
+            }
         )}
     </div>
 

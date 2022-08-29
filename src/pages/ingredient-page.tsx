@@ -1,24 +1,17 @@
-import React, {FC, useEffect} from "react";
-import {getIngredients} from "../services/actions/ingredients";
+import React, {FC} from "react";
 import Loader from "../components/elements/loader";
 import FetchError from "../components/elements/fetch-error";
 import {useRouteMatch} from "react-router-dom";
 import IngredientDetails from "../components/burger-ingredients/details";
 import {TDetails} from "../utils/types";
-import {useAppSelector, useAppDispatch} from "../hooks";
+import {useAppSelector} from "../hooks";
 
 interface MatchParams {
     ingredientId: string;
 }
 
 const IngredientPage: FC = () => {
-    const dispatch = useAppDispatch();
     const { loading, fetchError, ingredients } = useAppSelector(store => store.ingredients);
-
-    useEffect(() => {
-        dispatch(getIngredients());
-    }, []);
-
     const { params } = useRouteMatch<MatchParams>();
 
     if (!ingredients.length) {
