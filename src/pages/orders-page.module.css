@@ -1,0 +1,10 @@
+.wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: calc(var(--offset-base-size) * 15);
+}
+
+.left {
+    max-height: 708px;
+    overflow-y: auto;
+}

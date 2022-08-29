@@ -1,5 +1,4 @@
-import {PROFILE_ERROR, SET_DEFAULT_VALUES, SET_PROFILE_FORM_VALUE} from "../actions/profile";
-import {AnyAction} from "redux";
+import {PROFILE_ERROR, SET_DEFAULT_VALUES, SET_PROFILE_FORM_VALUE, TProfileActions} from "../actions/profile";
 
 type Form = {
     [props: string]: any
@@ -20,7 +19,7 @@ const initialState: IState = {
     error: null,
 }
 
-export const profileReducer = (state = initialState, action: AnyAction) => {
+export const profileReducer = (state = initialState, action: TProfileActions): IState => {
     switch (action.type) {
         case SET_DEFAULT_VALUES: {
             const values: Form = {};

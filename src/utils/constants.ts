@@ -1,4 +1,5 @@
 const BASE_URL = 'https://norma.nomoreparties.space/api';
+const WS_BASE_URL = 'wss://norma.nomoreparties.space/';
 
 export const INGREDIENTS_URL = `${BASE_URL}/ingredients`;
 export const MAKE_ORDER_URL = `${BASE_URL}/orders`;
@@ -16,4 +17,7 @@ export const REFRESH_TOKEN_URL = `${AUTH_URL}/token`;
 export const AUTHENTICATE_URL = `${AUTH_URL}/user`;
 
 export const UPDATE_PROFILE = `${AUTH_URL}/user`;
+
+export const WS_GET_ORDERS_ALL = `${WS_BASE_URL}orders/all`;
+export const WS_GET_USER_ORDERS = `${WS_BASE_URL}orders`;
 

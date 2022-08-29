@@ -17,7 +17,7 @@ const ResetPassword: FC = () => {
     const {values, handleChange} = useForm({password: '', token: ''});
 
     const handleSubmit = () => {
-        dispatch(resetPassword(values) as any)
+        dispatch(resetPassword(values))
     }
 
     return (
@@ -42,7 +42,7 @@ const ResetPassword: FC = () => {
                 Сохранить
             </Button>
             <div className="text text_type_main-default">
-                <span className="question">Вспомнили пароль? </span>
+                <span className="sub_text">Вспомнили пароль? </span>
                 <Link type="form" to="/login" text="Войти" />
             </div>
         </UserForm>

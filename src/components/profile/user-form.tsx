@@ -18,7 +18,7 @@ const UserForm: FC = () => {
 
     const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(saveForm() as any);
+        dispatch(saveForm());
     };
 
     useEffect(() => {

@@ -9,11 +9,31 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import {rootReducer} from "./services/reducers";
 import jwtRefresh from "./middleware/jwtRefreshMiddleware";
+import socketMiddleware from "./middleware/socketMiddleware";
+import moment from 'moment'
+import 'moment/locale/ru';
+import {
+    WS_CONNECTION_CLOSE,
+    WS_CONNECTION_CLOSED,
+    WS_CONNECTION_START,
+    WS_CONNECTION_SUCCESS,
+    WS_GET_MESSAGE
+} from "./services/actions/ws";
+moment.locale('ru')
 
 const composeEnhancers = (process.env.NODE_ENV !== 'production' &&
     (window as any)['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose) || compose;
 
-const enhancer = composeEnhancers(applyMiddleware(jwtRefresh, thunk));
+export const wsActions = {
+    wsInit: WS_CONNECTION_START,
+    wsSendMessage: WS_GET_MESSAGE,
+    onOpen: WS_CONNECTION_SUCCESS,
+    wsClosed: WS_CONNECTION_CLOSED,
+    onMessage: WS_GET_MESSAGE,
+    onClose: WS_CONNECTION_CLOSE
+};
+
+const enhancer = composeEnhancers(applyMiddleware(jwtRefresh, thunk, socketMiddleware(wsActions)));
 const store = createStore(rootReducer, enhancer);
 
 const root = ReactDOM.createRoot(

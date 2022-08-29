@@ -1,5 +1,9 @@
-import {GET_INGREDIENTS_ERROR, GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS} from "../actions/ingredients";
-import {AnyAction} from "redux";
+import {
+    GET_INGREDIENTS_ERROR,
+    GET_INGREDIENTS_REQUEST,
+    GET_INGREDIENTS_SUCCESS,
+    TIngredientsActions
+} from "../actions/ingredients";
 import {TIngredient} from "../../utils/types";
 
 interface IState<T = TIngredient> {
@@ -14,7 +18,7 @@ const initialState: Readonly<IState> = {
     fetchError: false,
 };
 
-export const ingredientsReducer = (state = initialState, action: AnyAction): IState => {
+export const ingredientsReducer = (state = initialState, action: TIngredientsActions): IState => {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST: {
             return {

@@ -1,17 +1,18 @@
-import React, {FC, useCallback, useEffect} from "react";
+import React, {FC, ReactNode, useCallback, useEffect} from "react";
 import ModalOverlay from './modal-overlay';
 import {createPortal} from "react-dom";
 import modalStyles from './modal.module.css';
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 type TProps = {
-    children: JSX.Element | JSX.Element[] | null,
+    children: ReactNode | ReactNode[],
     onClose: () => void;
-    title?: string;
+    title?: string | JSX.Element;
     isOpen?: boolean;
+    contentClassName?: string;
 };
 
-const Modal: FC<TProps> = ({title, children, onClose}) => {
+const Modal: FC<TProps> = ({title, children, onClose, contentClassName}) => {
     const keyDownHandler = useCallback(({ key }: KeyboardEvent) => {
         switch (key) {
             case 'Escape':
@@ -39,7 +40,7 @@ const Modal: FC<TProps> = ({title, children, onClose}) => {
                             <CloseIcon type="primary"/>
                         </span>
                     </div>
-                    <div className={`${modalStyles.content} pb-15 pr-25 pl-25`}>
+                    <div className={`${modalStyles.content} ${contentClassName}`}>
                         {children}
                     </div>
                 </div>

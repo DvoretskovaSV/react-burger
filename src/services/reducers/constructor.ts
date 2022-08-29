@@ -1,11 +1,10 @@
 import {
     REMOVE_CONSTRUCTOR_INGREDIENTS, RESET_CONSTRUCTOR,
     SET_CONSTRUCTOR_INGREDIENTS,
-    SET_CONSTRUCTOR_LOCK
+    SET_CONSTRUCTOR_LOCK, TConstructorActions
 } from "../actions/constructor";
 import {CHANGE_CONSTRUCTOR_INGREDIENTS_ORDER} from "../actions/ingredients";
 import {TConstructorIngredient} from "../../utils/types";
-import {AnyAction} from "redux";
 
 interface IState {
     ingredients: Array<TConstructorIngredient>;
@@ -17,7 +16,7 @@ const initialState: IState = {
     lock: null,
 };
 
-export const constructorReducer = (state = initialState, action: AnyAction) => {
+export const constructorReducer = (state = initialState, action: TConstructorActions): IState => {
     switch (action.type) {
         case SET_CONSTRUCTOR_INGREDIENTS:
             return {

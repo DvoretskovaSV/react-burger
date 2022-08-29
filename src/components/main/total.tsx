@@ -8,7 +8,6 @@ import {closeModalOrder} from "../../services/actions/modal";
 import Loader from "../elements/loader";
 import FetchError from "../elements/fetch-error";
 import {useHistory} from "react-router-dom";
-import {TOrder} from "../../utils/types";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 
 type TProps = {
@@ -19,13 +18,13 @@ const Total: FC<TProps> = ({total = 0}) => {
     const dispatch = useAppDispatch();
     const history = useHistory();
 
-    const {isOpenModalOrder} = useAppSelector(store => store.modal);
-    const {order, loading, fetchError} = useAppSelector(store => store.order)
+    const {isOpenModalOrder, order} = useAppSelector(store => store.modal);
+    const {loading, fetchError} = useAppSelector(store => store.order)
     const {isAuthenticated} = useAppSelector(store => store.user)
 
     const handlerClick = () => {
         if (isAuthenticated) {
-            dispatch(createOrder() as any);
+            dispatch(createOrder());
         } else {
             history.replace("/login");
         }
@@ -51,9 +50,10 @@ const Total: FC<TProps> = ({total = 0}) => {
                     isOpen={isOpenModalOrder}
                     onClose={handleClose}
                     title={(loading && !fetchError && "Обработка заказа") || ''}
+                    contentClassName="pb-15 pr-25 pl-25"
                 >
-                    {loading && !fetchError && <Loader />}
-                    {order && !fetchError && <OrderDetails {...order as TOrder} />}
+                    {(loading && !fetchError) && <Loader />}
+                    {(Boolean(order) && !fetchError) ? <OrderDetails {...order} /> : <FetchError error={fetchError} />}
                     {fetchError && <FetchError error={fetchError}/>}
             </Modal>}
         </>

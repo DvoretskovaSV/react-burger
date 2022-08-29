@@ -5,6 +5,7 @@ import {orderReducer} from "./order";
 import {modalReducer} from "./modal";
 import {userReducer} from "./user";
 import {profileReducer} from "./profile";
+import {WebSocketReducer} from "./ws";
 
 
 export const rootReducer = combineReducers({
@@ -13,5 +14,6 @@ export const rootReducer = combineReducers({
     order: orderReducer,
     modal: modalReducer,
     user: userReducer,
-    profile: profileReducer
+    profile: profileReducer,
+    ws: WebSocketReducer,
 });

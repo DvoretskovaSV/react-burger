@@ -17,7 +17,7 @@ const Register: FC = () => {
     const {registerError} = useAppSelector(store => store.user.errors);
 
     const handleSubmit = () => {
-        dispatch(registrate(values) as any);
+        dispatch(registrate(values));
     }
 
     return (
@@ -48,7 +48,7 @@ const Register: FC = () => {
                 Зарегистрироваться
             </Button>
             <div className="mb-4 text text_type_main-default">
-                <span className="question">Уже зарегистрированы?</span> <Link type="form" to="/login" text="Войти"/>
+                <span className="sub_text">Уже зарегистрированы?</span> <Link type="form" to="/login" text="Войти"/>
             </div>
         </UserForm>
     );

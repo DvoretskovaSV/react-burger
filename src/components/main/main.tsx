@@ -19,14 +19,7 @@ const threshold = Array(thresholdStep).fill(0).map((value, index) => 1 / thresho
 type TabsRef = { [key in SectionsType]: RefObject<HTMLDivElement>; };
 
 const Main = () => {
-    const dispatch = useAppDispatch();
-
     const {loading, fetchError, ingredients} = useAppSelector(store => store.ingredients);
-
-    useEffect(() => {
-        dispatch(getIngredients() as any);
-    }, []);
-
     const constructorItemsIds: TConstructorIngredient[] = useAppSelector(store => store.constructorIngredients.ingredients);
     const lockId = useAppSelector(store => store.constructorIngredients.lock);
 
