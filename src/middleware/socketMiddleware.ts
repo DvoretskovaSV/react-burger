@@ -3,11 +3,12 @@ import {
 } from "../services/actions/ws";
 import {ConnectionStatus} from "../utils/types";
 import {getCookie} from "../utils/util";
-import {Middleware} from "redux";
+import {Middleware, MiddlewareAPI} from "redux";
+import {AppDispatch, RootState} from "../index";
 
 const getOrigin = (url: string): string => url.split("?")[0];
 
-const socketMiddleware = (wsActions: wsActions): Middleware  => (store) => {
+const socketMiddleware = (wsActions: wsActions): Middleware  => (store: MiddlewareAPI<AppDispatch, RootState>) => {
     let connections: { [key: string]: WebSocket } = {};
     const {wsInit, wsSendMessage, onOpen, wsClosed, onClose} = wsActions;
 
