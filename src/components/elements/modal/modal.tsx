@@ -33,10 +33,10 @@ const Modal: FC<TProps> = ({title, children, onClose, contentClassName}) => {
     return createPortal(
         <>
             <ModalOverlay onClick={onClose}>
-                <div className={modalStyles.modal} onClick={e => e.stopPropagation()}>
+                <div className={modalStyles.modal} onClick={e => e.stopPropagation()} data-cy="modal">
                     <div className={`${modalStyles.header} mt-10 mr-10 ml-10 pt-5 pb-5`}>
                         <h2>{title}</h2>
-                        <span className={modalStyles.close_icon} onClick={onClose}>
+                        <span className={modalStyles.close_icon} onClick={onClose} data-cy="close-icon">
                             <CloseIcon type="primary"/>
                         </span>
                     </div>

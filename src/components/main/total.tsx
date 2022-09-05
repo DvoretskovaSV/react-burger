@@ -36,7 +36,7 @@ const Total: FC<TProps> = ({total = 0}) => {
 
     return (
         <>
-            <div className={`${totalStyles.wrap} pt-10 pb-10 pr-4`}>
+            <div className={`${totalStyles.wrap} pt-10 pb-10 pr-4`} data-cy="order">
                 <div className="pr-10 text text_type_digits-medium">
                     {total} <CurrencyIcon type="primary"/>
                 </div>

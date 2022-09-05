@@ -118,9 +118,9 @@ const Main = () => {
                             <div className={mainStyles.left}>
                                 <h1 className="mb-5"> Соберите бургер</h1>
                                 <Tabs sections={sections} current={current} onClick={handleClick}/>
-                                <div className={`${mainStyles.section} custom-scroll`} ref={sectionRef}>
+                                <div className={`${mainStyles.section} custom-scroll`} ref={sectionRef} data-cy="ingredients-section">
                                     {sections.map((section, index) => (
-                                        <div key={index} ref={tabRefs[section.typeId]}>
+                                        <div key={index} ref={tabRefs[section.typeId]} data-cy={`section-${index}`}>
                                             <h2 className="pt-8 mb-10">{section.text}</h2>
                                             <BurgerIngredients
                                                 key={index}

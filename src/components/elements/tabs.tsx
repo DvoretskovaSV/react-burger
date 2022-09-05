@@ -11,15 +11,19 @@ type TProps = {
 };
 
 const Tabs: FC<TProps> = ({sections, current, onClick}) => (
-    <div className={tabsStyles.tabs}>
+    <div className={tabsStyles.tabs} data-cy="tabs">
         {sections.map((section, index) => (
             // @ts-ignore
             <Tab key={index}
+
                  active={current === section.typeId}
                  onClick={() => onClick(section.typeId)}
                  value={section.typeId}
             >
-                {section.text}
+                <span
+                    data-cy={current === section.typeId ? 'active' : 'not-active'}>
+                    {section.text}
+                </span>
             </Tab>
         ))}
     </div>

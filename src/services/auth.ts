@@ -48,7 +48,7 @@ export const refreshToken = async () => await refreshTokenRequest()
     });
 
 
-const setTokens = ({accessToken, refreshToken}: TToken) => {
+export const setTokens = ({accessToken, refreshToken}: TToken) => {
     deleteCookie('token');
     deleteCookie('refreshToken');
 
