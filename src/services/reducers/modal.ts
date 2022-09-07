@@ -16,7 +16,7 @@ interface IState {
     isOpenIngredient: boolean;
 }
 
-const initialState: IState = {
+export const initialState: IState = {
     isOpenModalOrder: false,
     isOpenModalIngredient: false,
     openIdIngredient: null,

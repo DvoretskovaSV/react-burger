@@ -1,9 +1,20 @@
 import { WebSocketReducer } from './ws'
 import {WS_CONNECTION_CLOSED, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE} from "../actions/ws";
+import {initialState} from "./ws";
 
-const initialState = {
-    openConnections: {},
-}
+const successStatus = 200;
+const openStatus = 1001;
+const connections = [
+    {
+        url: 'http://url',
+        property: 'property',
+        messages: [{ _id: '1_messages', text: '123456'}],
+    },
+    {
+        url: 'http://url3',
+        property: 'property1',
+    }
+];
 
 describe('ws reducer', () => {
 
@@ -13,21 +24,19 @@ describe('ws reducer', () => {
 
     it('should handle WS_CONNECTION_START', () => {
         expect(
-            WebSocketReducer({
-                ...initialState
-            }, {
+            WebSocketReducer(initialState, {
                 type: WS_CONNECTION_START,
                 payload: {
-                    url: 'http://url',
-                    status: 200,
-                    rootProperty: 'property'
+                    url: connections[0].url,
+                    status: successStatus,
+                    rootProperty: connections[0].property,
                 }
             })
         ).toEqual({
             openConnections: {
-                'http://url': {
-                    status: 200,
-                    rootProperty: 'property',
+                [connections[0].url]: {
+                    status: successStatus,
+                    rootProperty: connections[0].property,
                 }
             },
         })
@@ -37,30 +46,30 @@ describe('ws reducer', () => {
         expect(
             WebSocketReducer({
                 openConnections: {
-                    'http://url': {
+                    [connections[0]]: {
                         status: null,
-                        rootProperty: 'property',
+                        rootProperty: connections[0].property,
                     },
-                    'http://url3': {
-                        status: 1001,
-                        rootProperty: 'property1',
+                    [connections[1]]: {
+                        status: openStatus,
+                        rootProperty: connections[1].property,
                     }
                 }
             }, {
                 type: WS_CONNECTION_SUCCESS,
                 payload: {
-                    url: 'http://url3',
+                    url: connections[1],
                 }
             })
         ).toEqual({
             openConnections: {
-                'http://url': {
+                [connections[0]]: {
                     status: null,
-                    rootProperty: 'property',
+                    rootProperty: connections[0].property,
                 },
-                'http://url3': {
+                [connections[1]]: {
                     status: 'open',
-                    rootProperty: 'property1',
+                    rootProperty: connections[1].property,
                 }
             },
         })
@@ -70,24 +79,24 @@ describe('ws reducer', () => {
         expect(
             WebSocketReducer({
                 openConnections: {
-                    'http://url': {
-                        status: 200,
-                        rootProperty: 'property',
+                    [connections[0]]: {
+                        ...connections[0],
+                        status: successStatus,
                     }
                 }
             }, {
                 type: WS_GET_MESSAGE,
                 payload: {
-                    messages: [{ _id: '1_messages', text: '123456'}],
-                    url: 'http://url'
+                    messages: connections[0].messages,
+                    url: connections[0]
                 }
             })
         ).toEqual({
             openConnections: {
-                'http://url': {
-                    status: 200,
-                    rootProperty: 'property',
-                    messages: [{_id: '1_messages', text: '123456'}],
+                [connections[0]]: {
+                    ...connections[0],
+                    status: successStatus,
+                    messages: connections[0].messages,
                 }
             },
         })
@@ -97,25 +106,22 @@ describe('ws reducer', () => {
         expect(
             WebSocketReducer({
                 openConnections: {
-                    'http://url': {
-                        status: null,
-                        rootProperty: 'property',
-                    },
-                    'http://url3': {
+                    [connections[0].url]: connections[0],
+                    [connections[1].url]: {
+                        ...connections[1],
                         status: 'open',
-                        rootProperty: 'property1',
                     }
                 },
             }, {
                 type: WS_CONNECTION_CLOSED,
                 payload: {
-                    url: 'http://url',
+                    url: [connections[0].url],
                 }
             })
         ).toEqual({
             openConnections: {
-                'http://url3': {
-                    rootProperty: 'property1',
+                [connections[1].url]: {
+                    ...connections[1],
                     status: 'open',
                 }
             }

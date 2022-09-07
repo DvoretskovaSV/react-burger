@@ -23,7 +23,7 @@ interface IState<T = TUser, E = Errors> {
     isResetPassword: boolean,
 }
 
-const initialState: IState = {
+export const initialState: IState = {
     user: {
         email: null,
         name: null,

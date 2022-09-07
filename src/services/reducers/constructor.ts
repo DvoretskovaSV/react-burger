@@ -11,7 +11,7 @@ interface IState {
     lock: string | null;
 }
 
-const initialState: IState = {
+export const initialState: IState = {
     ingredients: [],
     lock: null,
 };

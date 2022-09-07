@@ -6,39 +6,29 @@ import {
     OPEN_MODAL_ORDER,
     SHOW_MODAL_ORDER
 } from "../actions/modal";
+import {initialState} from "./modal";
 
-const initialState = {
-    isOpenModalOrder: false,
-    isOpenModalIngredient: false,
-    openIdIngredient: null,
-    isOpenIngredient: false,
-    order: null,
-};
+const orderID = '123450';
+const orderIDNew = '54321';
 
 describe('modal reducer', () => {
 
     it('should return the initial state', () => {
-        expect(modalReducer(undefined, {})).toEqual({
-            isOpenModalOrder: false,
-            isOpenModalIngredient: false,
-            openIdIngredient: null,
-            isOpenIngredient: false,
-            order: null,
-        })
+        expect(modalReducer(undefined, {})).toEqual(initialState)
     });
 
     it('should handle OPEN_MODAL_ORDER', () => {
         expect(
             modalReducer({
                 ...initialState,
-                order: '123450',
+                order: orderID,
                 isOpenModalOrder: false
             }, {
                 type: OPEN_MODAL_ORDER,
             })
         ).toEqual({
             ...initialState,
-            order: '123450',
+            order: orderID,
             isOpenModalOrder: true,
         })
     });
@@ -47,14 +37,14 @@ describe('modal reducer', () => {
         expect(
             modalReducer({
                 ...initialState,
-                order: '12345',
+                order: orderID,
             }, {
                 type: SHOW_MODAL_ORDER,
-                order: '54321',
+                order: orderIDNew,
             })
         ).toEqual({
             ...initialState,
-            order: '54321',
+            order: orderIDNew,
         })
     });
 
@@ -62,7 +52,7 @@ describe('modal reducer', () => {
         expect(
             modalReducer({
                 ...initialState,
-                order: '54321',
+                order: orderIDNew,
                 isOpenModalOrder: true,
             }, {
                 type: CLOSE_MODAL_ORDER,
@@ -77,12 +67,12 @@ describe('modal reducer', () => {
         expect(
             modalReducer(initialState, {
                 type: OPEN_MODAL_INGREDIENT,
-                id: '12345'
+                id: orderID,
             })
         ).toEqual({
             ...initialState,
             isOpenIngredient: true,
-            openIdIngredient: '12345'
+            openIdIngredient: orderID
         })
     });
 
@@ -94,9 +84,6 @@ describe('modal reducer', () => {
             }, {
                 type: CLOSE_MODAL_INGREDIENT,
             })
-        ).toEqual({
-            ...initialState,
-            isOpenModalOrder: false,
-        })
+        ).toEqual(initialState)
     });
 });

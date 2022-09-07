@@ -1,97 +1,91 @@
 import { profileReducer } from "./profile";
 import {PROFILE_ERROR, SET_DEFAULT_VALUES, SET_PROFILE_FORM_VALUE} from "../actions/profile";
+import {initialState} from "./profile";
 
-const initialState = {
-    form: {
-        name: '',
-        email: '',
-        password: '',
-        isDirty: false,
-    },
-    error: null,
-}
+const email = 'name@email.com';
+const password = 'puf';
+const name = 'name';
+const profileError = 401;
+
+const newName = 'name_name';
 
 describe('profile reducer', () => {
 
     it('should return the initial state', () => {
-        expect(profileReducer(undefined, {})).toEqual({
-            form: {
-                name: '',
-                email: '',
-                password: '',
-                isDirty: false,
-            },
-            error: null,
-        })
+        expect(profileReducer(undefined, {})).toEqual(initialState)
     });
 
     it('should handle SET_DEFAULT_VALUES', () => {
         expect(
             profileReducer(initialState, {
                 type: SET_DEFAULT_VALUES,
-                name: 'name',
-                email: 'name@email.com',
-                password: 'puf',
+                name,
+                email,
+                password,
             })
         ).toEqual({
+            ...initialState,
             form: {
-                name: 'name',
-                email: 'name@email.com',
-                password: 'puf',
-                isDirty: false,
+                ...initialState.form,
+                name,
+                email,
+                password,
             },
-            error: null,
         })
     });
 
     it('should handle SET_PROFILE_FORM_VALUE', () => {
         expect(
             profileReducer({
+                ...initialState,
                 form: {
-                    name: 'name',
-                    email: 'name@email.com',
-                    password: 'puf',
-                    isDirty: false,
+                    ...initialState.form,
+                    name,
+                    email,
+                    password,
                 },
-                error: null,
             }, {
                 type: SET_PROFILE_FORM_VALUE,
                 field: 'name',
-                value: 'name_name'
+                value: newName
             })
         ).toEqual({
+            ...initialState,
             form: {
-                name: 'name_name',
-                email: 'name@email.com',
-                password: 'puf',
+                ...initialState.form,
+                name: newName,
+                email,
+                password,
                 isDirty: true,
             },
-            error: null,
         })
     });
 
     it('should handle PROFILE_ERROR', () => {
         expect(
             profileReducer({
+                ...initialState,
                 form: {
-                    name: 'name_name',
-                    email: 'name@email.com',
-                    password: 'puf',
+                    ...initialState.form,
+                    name: newName,
+                    email,
+                    password,
                     isDirty: true,
                 },
                 error: null,
             }, {
                 type: PROFILE_ERROR,
-                code: 401
+                code: profileError
             })
         ).toEqual({
+            ...initialState,
             form: {
-                name: 'name_name',
-                email: 'name@email.com',
-                password: 'puf',
+                name: newName,
+                email,
+                password,
                 isDirty: true,
             },
-            error: 401,
+            error: profileError,
         })
     });
 });

@@ -1,4 +1,5 @@
 import {constructorReducer} from './constructor';
+import uuid from "react-uuid"
 import {
     REMOVE_CONSTRUCTOR_INGREDIENTS,
     RESET_CONSTRUCTOR,
@@ -6,34 +7,35 @@ import {
     SET_CONSTRUCTOR_LOCK
 } from "../actions/constructor";
 import {CHANGE_CONSTRUCTOR_INGREDIENTS_ORDER} from "../actions/ingredients";
+import {initialState} from "./constructor";
 
-const initialState = {
-    ingredients: [],
-    lock: null,
-};
+const ingredients = [
+    {id: '12345', uuid: uuid()},
+    {id: '54321', uuid: uuid()},
+    {id: '54789', uuid: uuid()},
+    {id: '98765', uuid: uuid()}
+];
+
 
 describe('constructor reducer', () => {
 
     it('should return the initial state', () => {
-        expect(constructorReducer(undefined, {})).toEqual({
-            ingredients: [],
-            lock: null,
-        })
+        expect(constructorReducer(undefined, {})).toEqual(initialState)
     });
 
     it('should handle SET_CONSTRUCTOR_INGREDIENTS', () => {
         expect(
             constructorReducer({
                 ...initialState,
-                ingredients: [{id: '12345', uuid: '12345'}]
+                ingredients: [ingredients[0]]
             }, {
                 type: SET_CONSTRUCTOR_INGREDIENTS,
-                id: '54321',
-                uuid: '54321',
+                id: ingredients[1].id,
+                uuid: ingredients[1].uuid,
             })
         ).toEqual({
-            ingredients: [{id: '12345', uuid: '12345'}, {id: '54321', uuid: '54321'}],
-            lock: null,
+            ...initialState,
+            ingredients: [ingredients[0], ingredients[1]],
         })
     });
 
@@ -41,14 +43,14 @@ describe('constructor reducer', () => {
         expect(
             constructorReducer({
                 ...initialState,
-                ingredients: [{id: '12345', uuid: '12345'}, {id: '54321', uuid: '54321'}],
+                ingredients: [ingredients[0], ingredients[1]],
             }, {
                 type: REMOVE_CONSTRUCTOR_INGREDIENTS,
-                uuid: '12345',
+                uuid: ingredients[0].uuid,
             })
         ).toEqual({
-            ingredients: [{id: '54321', uuid: '54321'}],
-            lock: null,
+            ...initialState,
+            ingredients: [ingredients[1]],
         })
     });
 
@@ -56,23 +58,23 @@ describe('constructor reducer', () => {
         expect(
             constructorReducer({
                 ...initialState,
-                ingredients: [{id: '12345', uuid: '12345'}, {id: '54321', uuid: '12345'}, {id: '54789', uuid: '54789'}, {id: '98765', uuid: '98765'}],
+                ingredients: [ingredients[0], ingredients[1], ingredients[2], ingredients[3]],
             }, {
                 type: CHANGE_CONSTRUCTOR_INGREDIENTS_ORDER,
                 prevIndex: 0,
                 currentIndex: 2,
             })
         ).toEqual({
-            ingredients: [{id: '54789', uuid: '54789'}, {id: '54321', uuid: '12345'}, {id: '12345', uuid: '12345'}, {id: '98765', uuid: '98765'}],
-            lock: null,
+            ...initialState,
+            ingredients: [ingredients[2], ingredients[1], ingredients[0], ingredients[3]],
         })
     });
 
     it('should handle RESET_CONSTRUCTOR', () => {
         expect(
             constructorReducer({
-                lock: '98765',
-                ingredients: [{id: '12345', uuid: '12345'}, {id: '54321', uuid: '12345'}, {id: '54789', uuid: '54789'}, {id: '98765', uuid: '98765'}],
+                lock: ingredients[ingredients.length - 1].id,
+                ingredients,
             }, {
                 type: RESET_CONSTRUCTOR,
             })
@@ -83,24 +85,24 @@ describe('constructor reducer', () => {
         expect(
             constructorReducer(initialState, {
                 type: SET_CONSTRUCTOR_LOCK,
-                id: '12345'
+                id: ingredients[0].id,
             })
         ).toEqual({
             ingredients: [],
-            lock: '12345'
+            lock: ingredients[0].id,
         });
 
         expect(
             constructorReducer({
-                lock: '98765',
-                ingredients: [{id: '12345', uuid: '12345'}, {id: '54321', uuid: '12345'}, {id: '54789', uuid: '54789'}, {id: '98765', uuid: '98765'}],
+                lock: ingredients[ingredients.length - 1].id,
+                ingredients,
             }, {
                 type: SET_CONSTRUCTOR_LOCK,
-                id: '12345'
+                id: ingredients[0].id,
             })
         ).toEqual({
-            lock: '12345',
-            ingredients: [{id: '12345', uuid: '12345'}, {id: '54321', uuid: '12345'}, {id: '54789', uuid: '54789'}, {id: '98765', uuid: '98765'}],
+            lock: ingredients[0].id,
+            ingredients,
         })
     });
 });

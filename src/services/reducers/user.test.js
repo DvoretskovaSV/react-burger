@@ -7,23 +7,14 @@ import {
     RESET_PASSWORD_PHASE,
     USER_REQUEST_SUCCESS
 } from "../actions/user";
+import {initialState} from "./user";
 
-const initialState = {
-    user: {
-        email: null,
-        name: null,
-    },
-    errors: {
-        authError: false,
-        passwordError: false,
-        registerError: false,
-        forgotError: false,
-        forgoPasswordError: false,
-    },
-    isAuthenticated: false,
-    isUserLoading: true,
-    isResetPassword: false,
+const errorCode = 666;
+const user = {
+    email: 'name@email.com',
+    name: 'name',
 };
+
 
 describe('user reducer', () => {
 
@@ -53,26 +44,16 @@ describe('user reducer', () => {
                 ...initialState,
                 errors: {
                     ...initialState.errors,
-                    registerError: 401,
+                    registerError: errorCode,
                     authError: undefined,
                 },
             }, {
                 type: USER_REQUEST_SUCCESS,
-                email: 'name@email.com',
-                name: 'name',
+                ...user,
             })
         ).toEqual({
-            user: {
-                email: 'name@email.com',
-                name: 'name',
-            },
-            errors: {
-                authError: false,
-                passwordError: false,
-                registerError: false,
-                forgotError: false,
-                forgoPasswordError: false,
-            },
+            ...initialState,
+            user,
             isAuthenticated: true,
             isUserLoading: false,
             isResetPassword: false,
@@ -85,7 +66,7 @@ describe('user reducer', () => {
                 ...initialState,
                 errors: {
                     ...initialState.errors,
-                    passwordError: 666,
+                    passwordError: errorCode,
                 },
                 isResetPassword: true,
             }, {
@@ -93,10 +74,6 @@ describe('user reducer', () => {
             })
         ).toEqual({
             ...initialState,
-            errors: {
-                ...initialState.errors,
-                passwordError: false,
-            },
             isResetPassword: false,
         })
     });
@@ -114,9 +91,7 @@ describe('user reducer', () => {
 
     it('should handle LOGOUT', () => {
         expect(
-            userReducer({
-                ...initialState
-            }, {
+            userReducer(initialState, {
                 type: LOGOUT,
             })
         ).toEqual({
@@ -131,7 +106,7 @@ describe('user reducer', () => {
                 ...initialState
             }, {
                 type: AUTH_REQUEST_ERROR,
-                code: 666,
+                code: errorCode,
             })
         ).toEqual({
             ...initialState,
@@ -139,7 +114,7 @@ describe('user reducer', () => {
             isUserLoading: false,
             errors: {
                 ...initialState.errors,
-                authError: 666,
+                authError: errorCode,
             }
         })
     });
@@ -150,13 +125,13 @@ describe('user reducer', () => {
                 ...initialState
             }, {
                 type: REGISTER_REQUEST_ERROR,
-                code: 666,
+                code: errorCode,
             })
         ).toEqual({
             ...initialState,
             errors: {
                 ...initialState.errors,
-                registerError: 666,
+                registerError: errorCode,
             }
         })
     });
@@ -164,55 +139,38 @@ describe('user reducer', () => {
     it('should handle RESET_PASSWORD_ERROR', () => {
         expect(
             userReducer({
-                user: {
-                    email: 'name',
-                    name: 'name@email.com',
-                },
+                ...initialState,
+                user,
                 errors: {
-                    authError: true,
-                    passwordError: false,
-                    registerError: false,
-                    forgotError: false,
-                    forgoPasswordError: false,
+                    ...initialState.errors,
                 },
-                isAuthenticated: false,
-                isUserLoading: true,
-                isResetPassword: false,
             }, {
                 type: RESET_PASSWORD_ERROR,
-                code: 666,
+                code: errorCode,
             })
         ).toEqual({
-            user: {
-                email: 'name',
-                name: 'name@email.com',
-            },
-            errors: {
-                authError: true,
-                passwordError: 666,
-                registerError: false,
-                forgotError: false,
-                forgoPasswordError: false,
-            },
-            isAuthenticated: false,
-            isUserLoading: true,
+            ...initialState,
+            user,
             isResetPassword: true,
+            errors: {
+                ...initialState.errors,
+                passwordError: errorCode,
+            },
+
         })
     });
 
     it('should handle FORGOT_PASSWORD_ERROR', () => {
         expect(
-            userReducer({
-                ...initialState
-            }, {
+            userReducer(initialState, {
                 type: FORGOT_PASSWORD_ERROR,
-                code: 666,
+                code: errorCode,
             })
         ).toEqual({
             ...initialState,
             errors: {
                 ...initialState.errors,
-                forgoPasswordError: 666,
+                forgoPasswordError: errorCode,
             }
         })
     });

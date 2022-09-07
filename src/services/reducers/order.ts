@@ -7,7 +7,7 @@ interface IState {
     fetchError: boolean;
 }
 
-const initialState: IState = {
+export const initialState: IState = {
     order: null,
     loading: false,
     fetchError: false,
