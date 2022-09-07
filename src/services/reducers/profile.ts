@@ -9,7 +9,7 @@ interface IState<T = Form> {
     error: string | null;
 }
 
-const initialState: IState = {
+export const initialState: IState = {
     form: {
         name: '',
         email: '',

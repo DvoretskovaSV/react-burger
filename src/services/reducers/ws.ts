@@ -25,7 +25,7 @@ interface IState {
     openConnections: { [key: string]: TConnection };
 }
 
-const initialState: IState = {
+export const initialState: IState = {
     openConnections: {},
 }
 

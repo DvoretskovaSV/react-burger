@@ -74,7 +74,13 @@ const ConstructorItem: FC<TProps> = ({item, handleClose, index, moveOrder}) => {
     drag(drop(ref))
 
     return (
-        <li className={listStyles.item} ref={ref} style={{ opacity }} data-handler-id={handlerId}>
+        <li
+            className={listStyles.item}
+            ref={ref}
+            style={{ opacity }}
+            data-handler-id={handlerId}
+            data-cy="constructor-item"
+        >
           <span className="mr-2">
               <DragIcon type="primary"/>
           </span>

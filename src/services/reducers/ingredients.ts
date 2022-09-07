@@ -12,7 +12,7 @@ interface IState<T = TIngredient> {
     fetchError: boolean | string;
 }
 
-const initialState: Readonly<IState> = {
+export const initialState: Readonly<IState> = {
     ingredients: [],
     loading: false,
     fetchError: false,

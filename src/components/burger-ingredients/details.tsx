@@ -10,7 +10,7 @@ const IngredientDetails: FC<TDetails> = ({
                                             carbohydrates,
                                             proteins
                                         }) => {
-    return <div className={`${detailsStyles.wrap}`}>
+    return <div className={`${detailsStyles.wrap}`} data-cy="ingredient-details">
         <img src={image_large} alt={name} className="mb-4"/>
         <h2 className="mb-8">{name}</h2>
         <div className={detailsStyles.details}>

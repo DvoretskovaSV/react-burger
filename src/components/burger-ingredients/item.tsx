@@ -42,13 +42,13 @@ const IngredientsItem: FC<TProps> = ({ingredient, className = ''}) => {
 
     return (
         <>
-            <li
+            <li data-cy="ingredient-item"
                 className={`${ingredientStyles.item} ${className}`}
                 ref={drag} style={{opacity}}
             >
 
                 <img className="pl-4 pr-4" src={image} alt={name}/>
-                {count && <Counter count={count} size="default"/>}
+                {count && <Counter count={count} size="default" />}
                 <span className={`${ingredientStyles.price} mt-1 mb-1`}>
                     {price} <CurrencyIcon type="primary"/>
                 </span>

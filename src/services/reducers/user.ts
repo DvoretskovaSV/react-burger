@@ -23,7 +23,7 @@ interface IState<T = TUser, E = Errors> {
     isResetPassword: boolean,
 }
 
-const initialState: IState = {
+export const initialState: IState = {
     user: {
         email: null,
         name: null,
@@ -98,6 +98,7 @@ export const userReducer = (state = initialState, action: TUserActions): IState 
                 isAuthenticated: false,
                 isUserLoading: false,
                 errors: {
+                    ...state.errors,
                     authError: action.code,
                 }
             }
@@ -106,6 +107,7 @@ export const userReducer = (state = initialState, action: TUserActions): IState 
             return {
                 ...state,
                 errors: {
+                    ...state.errors,
                     registerError: action.code,
                 }
             }
@@ -114,6 +116,7 @@ export const userReducer = (state = initialState, action: TUserActions): IState 
             return {
                 ...state,
                 errors: {
+                    ...state.errors,
                     passwordError: action.code,
                 },
                 isResetPassword: true,
@@ -123,6 +126,7 @@ export const userReducer = (state = initialState, action: TUserActions): IState 
             return {
                 ...state,
                 errors: {
+                    ...state.errors,
                     forgoPasswordError: action.code,
                 },
             }

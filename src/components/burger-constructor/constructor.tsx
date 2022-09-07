@@ -42,9 +42,9 @@ const BurgerConstructor: FC<TProps> = ({items, lockItem}) => {
     };
 
     return (
-        <ul className={listStyles.list} ref={drop}>
+        <ul className={listStyles.list} ref={drop} data-cy="constructor">
             {lockItem ?
-                <li className="pl-8 mb-4">
+                <li className="pl-8 mb-4" data-cy="constructor-first">
                     <ConstructorElement
                         type="top"
                         isLocked={true}
@@ -55,7 +55,7 @@ const BurgerConstructor: FC<TProps> = ({items, lockItem}) => {
                 </li>
                 : <PlaceholderItem className="ml-8 mb-4 mr-4"/>
             }
-            <ul className={`${listStyles.sub_list} custom-scroll pr-2`} >
+            <ul className={`${listStyles.sub_list} custom-scroll pr-2`} data-cy="constructor-main">
                 {items.length ?
                     items.map((item, index) => (
                         !lockItem || lockItem._id !== item._id
@@ -70,7 +70,7 @@ const BurgerConstructor: FC<TProps> = ({items, lockItem}) => {
                 )) : <PlaceholderList className='ml-8 mr-4'/>}
             </ul>
             {lockItem ?
-                <li className="pl-8 mt-4">
+                <li className="pl-8 mt-4" data-cy="constructor-last">
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
